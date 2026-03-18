@@ -88,4 +88,5 @@ for i, url in enumerate(photos):
 
 # 5. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #200; font-size: 10px; letter-spacing: 5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #255; font-size: 10px; letter-spacing: 255px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
+ 

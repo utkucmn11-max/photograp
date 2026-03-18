@@ -74,7 +74,6 @@ photos = [
     "2.jpg",
     "3.jpg",
     "4.jpg",
-    "7.jpg",
     "8.jpg",
     "1.jpg",
 ]

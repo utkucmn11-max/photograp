@@ -60,12 +60,12 @@ st.markdown("""
 # 3. BAŞLIK
 st.markdown("""
     <div class="header-container">
-        <div class="main-title">UTKU.</div>
-        <div class="sub-title">2026 / Visual Archive / 09 Works</div>
+        <div class="main-title">Utku Çimen </div>
+        <div class="sub-title">2026 / Kişisel Arşiv / 09 Works</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. VİTRİN (2 SÜTUNLU ASİMETRİK - 9 FOTOĞRAF)
+# 4. VİTRİN (2 SÜTUNLU ASİMETRİK - 9 FOTOĞRAF
 col1, col2 = st.columns(2)
 
 # TOPLAM 9 FOTOĞRAF (İsimleri kendi dosyalarınla değiştir)

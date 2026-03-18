@@ -3,17 +3,17 @@ import streamlit as st
 # 1. SAYFA AYARLARI (Geniş ekran)
 st.set_page_config(page_title="UTKU | STUDIO", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. ÖZEL CSS (Minimalist & Premium Estetik)
+# 2. ÖZEL CSS (Aydınlık & Minimal Estetik)
 st.markdown("""
     <style>
     /* Google Fonts'tan Inter ve Neue Haas Grotesk alternatifi Roboto'yu çekelim */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700&family=Roboto:wght@100;300;400;700&display=swap');
 
-    /* Genel Arka Plan ve Yazı Tipi */
+    /* Genel Arka Plan ve Yazı Tipi - ŞİMDİ AYDINLIK */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #0c0c0c; /* Çok koyu grimsi siyah, premium durur */
+        background-color: #ffffff; /* Tam Beyaz */
         font-family: 'Inter', sans-serif;
-        color: #f5f5f5;
+        color: #111111; /* Koyu Gri/Siyah Yazılar */
     }
 
     /* Başlık Alanı (GÖSTERİŞLİ VE SADE) */
@@ -28,32 +28,31 @@ st.markdown("""
         font-size: 4.5rem; /* Büyük, "Ben Buradayım" diyor */
         margin-bottom: 20px;
         text-transform: uppercase;
-        color: #ffffff;
+        color: #000000; /* Siyah Başlık */
         animation: fadeInDown 1.5s ease-out; /* Hafif açılma efekti */
     }
     .sub-title {
         font-family: 'Roboto', sans-serif;
         font-weight: 300;
         letter-spacing: 6px;
-        color: #777;
+        color: #888; /* Hafif Gri Alt Başlık */
         font-size: 1rem;
         animation: fadeInUp 1.8s ease-out;
     }
 
     /* Fotoğrafların Zarif Görünmesi (SADE VE GÖSTERİŞLİ) */
     [data-testid="stImage"] {
-        border-radius: 2px; /* Keskin, profesyonel kenarlar */
-        border: 1px solid #222; /* Çok ince, koyu çerçeve */
-        filter: grayscale(100%); /* Başlangıçta Siyah Beyaz */
+        border-radius: 0px; /* Tam keskin kenarlar */
+        border: 1px solid #f0f0f0; /* Çok ince, çok açık gri çerçeve */
+        filter: grayscale(0%); /* SİYAH EFEKTİ KALDIRILDI - Başlangıçta Renkli */
         transition: 0.8s all ease;
         margin-bottom: 30px;
-        box-shadow: 0px 4px 15px rgba(0,0,0,0.5); /* Hafif gölge */
+        box-shadow: 0px 2px 10px rgba(0,0,0,0.05); /* Çok hafif gölge */
     }
     [data-testid="stImage"]:hover {
-        filter: grayscale(0%); /* Üzerine gelince Renkli */
-        transform: scale(1.03); /* Hafif büyüme efekti */
-        border: 1px solid #fff; /* Beyaz çerçeve */
-        box-shadow: 0px 8px 30px rgba(255,255,255,0.1); /* Beyaz parlama */
+        transform: scale(1.02); /* Hafif büyüme efekti */
+        border: 1px solid #000; /* Üzerine gelince Siyah çerçeve */
+        box-shadow: 0px 5px 20px rgba(0,0,0,0.1); /* Hafif gölge artışı */
         cursor: crosshair; /* Tasarımcı mouse imleci */
     }
 
@@ -93,6 +92,7 @@ st.markdown("""
 col1, col2, col3 = st.columns(3)
 
 # Kendi fotoğraflarının URL'lerini veya yerel dosya yollarını ekle
+# Örnek: photos = ["resim1.jpg", "resim2.png"]
 photos = [
     "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
     "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
@@ -119,4 +119,4 @@ for i, url in enumerate(photos):
 
 # 5. ALT BİLGİ (FOOTER)
 st.markdown("---")
-st.markdown("<p style='text-align: center; color: #333; font-weight: 100; letter-spacing: 3px; padding: 50px 0;'>UTKU ÇİMEN</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #ccc; font-weight: 100; letter-spacing: 3px; padding: 50px 0;'>UTKU ÇİMEN</p>", unsafe_allow_html=True)

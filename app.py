@@ -1,9 +1,9 @@
 import streamlit as st
 
 # 1. SAYFA AYARLARI
-st.set_page_config(page_title="UTKU", layout="centered") # 'wide' yerine 'centered' yaparak odağı topladık
+st.set_page_config(page_title="UTKU STUDIO", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. ÖZEL CSS (Sadece Saf Siyah ve Saf Beyaz)
+# 2. ÖZEL CSS (Saf Siyah Arka Plan & Sedef Mavi Detaylar)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -15,38 +15,56 @@ st.markdown("""
         color: #ffffff;
     }
 
-    /* Başlık: Çok sade, çok büyük, çok ince */
+    /* Başlık Alanı */
     .header-container {
-        text-align: left; /* Sola yaslı, daha modern */
-        padding: 100px 0px 50px 0px;
+        padding: 120px 0px 80px 8%;
     }
     .main-title {
         font-weight: 100;
-        letter-spacing: -2px; /* Harfleri birbirine yaklaştırarak sinematik bir hava kattık */
-        font-size: 6rem;
-        line-height: 1;
-        margin-bottom: 10px;
+        letter-spacing: -3px;
+        font-size: 7rem;
+        line-height: 0.8;
+        margin-bottom: 15px;
+        /* Sedef Mavi Parlama Efekti */
+        color: #88ccff; 
+        text-shadow: 0 0 20px rgba(136, 204, 255, 0.4);
     }
     .sub-title {
-        letter-spacing: 5px;
-        color: #444; /* Çok koyu gri, gizli bir detay gibi */
-        font-size: 0.8rem;
+        letter-spacing: 10px;
+        color: #555;
+        font-size: 0.9rem;
         text-transform: uppercase;
+        margin-left: 5px;
     }
 
-    /* Fotoğraflar: Devasa ve Kenarsız */
+    /* Çapraz/Asimetrik Dizilim */
+    .stColumn {
+        padding: 0 40px !important;
+    }
+
+    /* Sağ sütunu aşağı kaydırarak çapraz duruşu sağlıyoruz */
+    [data-testid="column"]:nth-child(2) {
+        margin-top: 180px; 
+    }
+
+    /* Fotoğraf Tasarımı */
     [data-testid="stImage"] {
         border-radius: 0px;
-        margin-bottom: 150px; /* Fotoğraflar arası uçsuz bucaksız boşluk */
-        transition: opacity 0.5s ease;
+        margin-bottom: 100px;
+        border: 1px solid #111;
+        transition: all 0.6s ease;
     }
+    
+    /* Hover: Sedef Mavi Çerçeve ve Parlama */
     [data-testid="stImage"]:hover {
-        opacity: 0.8;
+        transform: scale(1.02);
+        border: 1px solid #88ccff;
+        box-shadow: 0px 0px 30px rgba(136, 204, 255, 0.3);
+        cursor: crosshair;
     }
 
-    /* Streamlit kalabalığını temizle */
+    /* Gereksizleri Temizle */
     #MainMenu, footer, header {visibility: hidden;}
-    .block-container {padding-top: 2rem;}
     </style>
     """, unsafe_allow_html=True)
 
@@ -54,22 +72,31 @@ st.markdown("""
 st.markdown("""
     <div class="header-container">
         <div class="main-title">UTKU.</div>
-        <div class="sub-title">2026 / VISUAL ARCHIVE</div>
+        <div class="sub-title">Visual Archive / Sedef Edition</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. VİTRİN (TEK SÜTUN - SİNEMATİK AKIŞ)
-# Fotoğraflar artık yan yana değil, alt alta ve kocaman.
+# 4. VİTRİN (2 SÜTUNLU ASİMETRİK YAPI)
+col1, col2 = st.columns(2)
+
+# Fotoğraf listesi (Buraya kendi fotoğraflarını eklemeyi unutma)
 photos = [
     "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
     "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb"
 ]
 
-for url in photos:
-    st.image(url, use_container_width=True)
+for i, url in enumerate(photos):
+    if i % 2 == 0:
+        with col1:
+            st.image(url, use_container_width=True)
+    else:
+        with col2:
+            st.image(url, use_container_width=True)
 
-# 5. FİNAL
-st.markdown("<p style='text-align: left; color: #222; font-size: 10px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)
-st.markdown("<br><br>", unsafe_allow_html=True)
+# 5. ALT BİLGİ
+st.markdown("<br><br><br><br>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #111; font-size: 12px; letter-spacing: 4px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)

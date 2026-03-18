@@ -94,7 +94,7 @@ col1, col2, col3 = st.columns(3)
 # Kendi fotoğraflarının URL'lerini veya yerel dosya yollarını ekle
 # Örnek: photos = ["resim1.jpg", "resim2.png"]
 photos = [
-    "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
+    "1.jpg",
     "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
     "https://images.unsplash.com/photo-1494790108377-be9c29b29330",

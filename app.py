@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 1. SAYFA AYARLARI
-st.set_page_config(page_title="UTKU ÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
 # 2. ÖZEL CSS (Sedef Mavi & Saf Siyah)
 st.markdown("""

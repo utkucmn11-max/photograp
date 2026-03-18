@@ -3,60 +3,56 @@ import streamlit as st
 # 1. SAYFA AYARLARI
 st.set_page_config(page_title="UTKU | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. ÖZEL CSS (Asimetrik 2 Sütun ve Saf Siyah Tema)
+# 2. ÖZEL CSS (Sedef Mavi & Saf Siyah)
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
 
-    /* Arka Plan */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #000000;
         font-family: 'Inter', sans-serif;
         color: #ffffff;
     }
 
-    /* Başlık Alanı */
+    /* Başlık: Sedef Mavi Parlama */
     .header-container {
-        padding: 120px 0px 80px 8%;
+        padding: 100px 0px 60px 8%;
     }
     .main-title {
         font-weight: 100;
         letter-spacing: -3px;
         font-size: 7rem;
         line-height: 0.8;
-        margin-bottom: 15px;
+        color: #88ccff; 
+        text-shadow: 0 0 25px rgba(136, 204, 255, 0.4);
     }
     .sub-title {
         letter-spacing: 10px;
-        color: #555;
-        font-size: 0.9rem;
+        color: #444;
+        font-size: 0.8rem;
         text-transform: uppercase;
-        margin-left: 5px;
+        margin-top: 10px;
     }
 
-    /* Çapraz/Asimetrik Dizilim İçin Sütun Ayarları */
-    .stColumn {
-        padding: 0 40px !important;
-    }
-
-    /* İkinci sütunu biraz aşağı kaydırarak çapraz duruşu sağlıyoruz */
+    /* Çapraz Duruş: Sağ sütun 180px aşağıdan başlar */
     [data-testid="column"]:nth-child(2) {
-        margin-top: 150px; /* Sağ sütunu aşağı iterek asimetri yarattık */
+        margin-top: 180px; 
     }
 
-    /* Fotoğraf Tasarımı */
+    /* Fotoğraf Tasarımı ve Hover */
     [data-testid="stImage"] {
         border-radius: 0px;
-        margin-bottom: 80px;
-        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        margin-bottom: 120px; /* Fotoğraflar arası ferah boşluk */
+        border: 1px solid #111;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    
     [data-testid="stImage"]:hover {
-        transform: scale(1.02);
+        transform: scale(1.03);
+        border: 1px solid #88ccff;
+        box-shadow: 0px 0px 40px rgba(136, 204, 255, 0.25);
         cursor: crosshair;
     }
 
-    /* Streamlit Gereksizleri Temizle */
     #MainMenu, footer, header {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
@@ -65,21 +61,24 @@ st.markdown("""
 st.markdown("""
     <div class="header-container">
         <div class="main-title">UTKU.</div>
-        <div class="sub-title">2026 Edition / Visual Archive</div>
+        <div class="sub-title">2026 / Visual Archive / 09 Works</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. VİTRİN (2 SÜTUNLU ASİMETRİK YAPI)
+# 4. VİTRİN (2 SÜTUNLU ASİMETRİK - 9 FOTOĞRAF)
 col1, col2 = st.columns(2)
 
-# Kendi fotoğraflarının listesi
+# TOPLAM 9 FOTOĞRAF (İsimleri kendi dosyalarınla değiştir)
 photos = [
-    "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb"
+    "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c", # 1
+    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", # 2
+    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1", # 3
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330", # 4
+    "https://images.unsplash.com/photo-1506744038136-46273834b3fb", # 5
+    "https://images.unsplash.com/photo-1534528741775-53994a69daeb", # 6
+    "https://images.unsplash.com/photo-1517841905240-472988babdf9", # 7
+    "https://images.unsplash.com/photo-1520156551693-010041d5509c", # 8
+    "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6"  # 9
 ]
 
 for i, url in enumerate(photos):
@@ -91,5 +90,5 @@ for i, url in enumerate(photos):
             st.image(url, use_container_width=True)
 
 # 5. ALT BİLGİ
-st.markdown("<br><br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #222; font-size: 12px; letter-spacing: 4px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #111; font-size: 10px; letter-spacing: 5px;'>UTKU ÇİMEN STUDIO</p>", unsafe_allow_html=True)

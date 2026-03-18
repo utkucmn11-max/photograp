@@ -70,15 +70,15 @@ col1, col2 = st.columns(2)
 
 # TOPLAM 9 FOTOĞRAF (İsimleri kendi dosyalarınla değiştir)
 photos = [
-    "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c", # 1
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f", # 2
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1", # 3
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330", # 4
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb", # 5
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb", # 6
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9", # 7
-    "https://images.unsplash.com/photo-1520156551693-010041d5509c", # 8
-    "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6"  # 9
+    "1.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "9.jpg",
 ]
 
 for i, url in enumerate(photos):

@@ -1,93 +1,75 @@
 import streamlit as st
 
 # 1. SAYFA AYARLARI
-st.set_page_config(page_title="UTKU STUDIO", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="UTKU", layout="centered") # 'wide' yerine 'centered' yaparak odağı topladık
 
-# 2. ÖZEL CSS (Mavi-Siyah, Ultra Ferah)
+# 2. ÖZEL CSS (Sadece Saf Siyah ve Saf Beyaz)
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
 
+    /* Saf Siyah Arka Plan */
     html, body, [data-testid="stAppViewContainer"] {
-        background-color: #050505;
-        background-image: 
-            radial-gradient(circle at 5% 5%, rgba(0, 102, 255, 0.08) 0%, transparent 25%),
-            radial-gradient(circle at 95% 95%, rgba(0, 102, 255, 0.05) 0%, transparent 25%);
+        background-color: #000000;
         font-family: 'Inter', sans-serif;
-        color: #f5f5f5;
+        color: #ffffff;
     }
 
+    /* Başlık: Çok sade, çok büyük, çok ince */
     .header-container {
-        text-align: center;
-        padding: 180px 0px 120px 0px; /* Üst boşluğu daha da artırdık */
+        text-align: left; /* Sola yaslı, daha modern */
+        padding: 100px 0px 50px 0px;
     }
     .main-title {
         font-weight: 100;
-        letter-spacing: 30px; /* Harf arası iyice açıldı */
-        font-size: 5.5rem;
-        text-transform: uppercase;
-        color: #ffffff;
-        margin-bottom: 30px;
+        letter-spacing: -2px; /* Harfleri birbirine yaklaştırarak sinematik bir hava kattık */
+        font-size: 6rem;
+        line-height: 1;
+        margin-bottom: 10px;
     }
     .sub-title {
-        letter-spacing: 10px;
-        color: #0070f3; /* Canlı Mavi */
-        font-size: 1.2rem;
-        font-weight: 300;
+        letter-spacing: 5px;
+        color: #444; /* Çok koyu gri, gizli bir detay gibi */
+        font-size: 0.8rem;
+        text-transform: uppercase;
     }
 
-    /* Fotoğraf Alanı Düzenlemeleri */
+    /* Fotoğraflar: Devasa ve Kenarsız */
     [data-testid="stImage"] {
-        border-radius: 5px;
-        border: 1px solid #111;
-        transition: 1s all ease;
-        margin-bottom: 100px; /* Fotoğraflar arası dikey boşluk (ÇOK FERAH) */
+        border-radius: 0px;
+        margin-bottom: 150px; /* Fotoğraflar arası uçsuz bucaksız boşluk */
+        transition: opacity 0.5s ease;
     }
     [data-testid="stImage"]:hover {
-        transform: translateY(-10px); /* Yukarı doğru hafif süzülme */
-        border: 1px solid #0070f3;
-        box-shadow: 0px 20px 50px rgba(0, 112, 243, 0.15);
+        opacity: 0.8;
     }
 
-    /* Sütunlar arası YATAY boşluk */
-    [data-testid="stHorizontalBlock"] {
-        gap: 120px !important; /* Fotoğraflar arası yatay mesafe iki katına çıktı */
-    }
-
+    /* Streamlit kalabalığını temizle */
     #MainMenu, footer, header {visibility: hidden;}
+    .block-container {padding-top: 2rem;}
     </style>
     """, unsafe_allow_html=True)
 
 # 3. BAŞLIK
 st.markdown("""
     <div class="header-container">
-        <div class="main-title">UTKU</div>
-        <div class="sub-title">COLLECTION — 026</div>
+        <div class="main-title">UTKU.</div>
+        <div class="sub-title">2026 / VISUAL ARCHIVE</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 4. VİTRİN (2 SÜTUNLU YAPI)
-# 3 yerine 2 sütun kullanarak ferahlığı sağladık
-col1, col2 = st.columns(2)
-
-# Fotoğraf listesi (Buraya kendi dosya adlarını yazmayı unutma)
+# 4. VİTRİN (TEK SÜTUN - SİNEMATİK AKIŞ)
+# Fotoğraflar artık yan yana değil, alt alta ve kocaman.
 photos = [
     "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
     "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
     "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb"
+    "https://images.unsplash.com/photo-1494790108377-be9c29b29330"
 ]
 
-for i, url in enumerate(photos):
-    if i % 2 == 0:
-        with col1:
-            st.image(url, use_container_width=True)
-    else:
-        with col2:
-            st.image(url, use_container_width=True)
+for url in photos:
+    st.image(url, use_container_width=True)
 
-# 5. ALT BİLGİ
-st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #222; letter-spacing: 5px;'>LIMITED EDITION STUDIO</p>", unsafe_allow_html=True)
+# 5. FİNAL
+st.markdown("<p style='text-align: left; color: #222; font-size: 10px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)
+st.markdown("<br><br>", unsafe_allow_html=True)

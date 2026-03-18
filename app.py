@@ -1,7 +1,7 @@
 import streamlit as st
 
 # 1. SAYFA AYARLARI
-st.set_page_config(page_title="UTKU | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="UTKU ÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
 # 2. ÖZEL CSS (Sedef Mavi & Saf Siyah)
 st.markdown("""
@@ -90,4 +90,4 @@ for i, url in enumerate(photos):
 
 # 5. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #111; font-size: 10px; letter-spacing: 5px;'>UTKU ÇİMEN STUDIO</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #120; font-size: 10px; letter-spacing: 5px;'>UTKU ÇİMEN STUDIO</p>", unsafe_allow_html=True)

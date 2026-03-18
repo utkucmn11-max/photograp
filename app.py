@@ -1,14 +1,14 @@
 import streamlit as st
 
 # 1. SAYFA AYARLARI
-st.set_page_config(page_title="UTKU STUDIO", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(page_title="UTKU | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. ÖZEL CSS (Saf Siyah Arka Plan & Sedef Mavi Detaylar)
+# 2. ÖZEL CSS (Asimetrik 2 Sütun ve Saf Siyah Tema)
 st.markdown("""
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400&display=swap');
 
-    /* Saf Siyah Arka Plan */
+    /* Arka Plan */
     html, body, [data-testid="stAppViewContainer"] {
         background-color: #000000;
         font-family: 'Inter', sans-serif;
@@ -25,9 +25,6 @@ st.markdown("""
         font-size: 7rem;
         line-height: 0.8;
         margin-bottom: 15px;
-        /* Sedef Mavi Parlama Efekti */
-        color: #88ccff; 
-        text-shadow: 0 0 20px rgba(136, 204, 255, 0.4);
     }
     .sub-title {
         letter-spacing: 10px;
@@ -37,33 +34,29 @@ st.markdown("""
         margin-left: 5px;
     }
 
-    /* Çapraz/Asimetrik Dizilim */
+    /* Çapraz/Asimetrik Dizilim İçin Sütun Ayarları */
     .stColumn {
         padding: 0 40px !important;
     }
 
-    /* Sağ sütunu aşağı kaydırarak çapraz duruşu sağlıyoruz */
+    /* İkinci sütunu biraz aşağı kaydırarak çapraz duruşu sağlıyoruz */
     [data-testid="column"]:nth-child(2) {
-        margin-top: 180px; 
+        margin-top: 150px; /* Sağ sütunu aşağı iterek asimetri yarattık */
     }
 
     /* Fotoğraf Tasarımı */
     [data-testid="stImage"] {
         border-radius: 0px;
-        margin-bottom: 100px;
-        border: 1px solid #111;
-        transition: all 0.6s ease;
+        margin-bottom: 80px;
+        transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
     
-    /* Hover: Sedef Mavi Çerçeve ve Parlama */
     [data-testid="stImage"]:hover {
         transform: scale(1.02);
-        border: 1px solid #88ccff;
-        box-shadow: 0px 0px 30px rgba(136, 204, 255, 0.3);
         cursor: crosshair;
     }
 
-    /* Gereksizleri Temizle */
+    /* Streamlit Gereksizleri Temizle */
     #MainMenu, footer, header {visibility: hidden;}
     </style>
     """, unsafe_allow_html=True)
@@ -72,14 +65,14 @@ st.markdown("""
 st.markdown("""
     <div class="header-container">
         <div class="main-title">UTKU.</div>
-        <div class="sub-title">Visual Archive / Sedef Edition</div>
+        <div class="sub-title">2026 Edition / Visual Archive</div>
     </div>
     """, unsafe_allow_html=True)
 
 # 4. VİTRİN (2 SÜTUNLU ASİMETRİK YAPI)
 col1, col2 = st.columns(2)
 
-# Fotoğraf listesi (Buraya kendi fotoğraflarını eklemeyi unutma)
+# Kendi fotoğraflarının listesi
 photos = [
     "https://images.unsplash.com/photo-1543326727-cf6c39e8f84c",
     "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
@@ -99,4 +92,4 @@ for i, url in enumerate(photos):
 
 # 5. ALT BİLGİ
 st.markdown("<br><br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #111; font-size: 12px; letter-spacing: 4px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #222; font-size: 12px; letter-spacing: 4px;'>END OF ARCHIVE</p>", unsafe_allow_html=True)

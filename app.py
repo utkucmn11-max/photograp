@@ -95,14 +95,14 @@ col1, col2, col3 = st.columns(3)
 # Örnek: photos = ["resim1.jpg", "resim2.png"]
 photos = [
     "1.jpg",
-    "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f",
-    "https://images.unsplash.com/photo-1524504388940-b1c1722653e1",
-    "https://images.unsplash.com/photo-1494790108377-be9c29b29330",
-    "https://images.unsplash.com/photo-1506744038136-46273834b3fb",
-    "https://images.unsplash.com/photo-1534528741775-53994a69daeb",
-    "https://images.unsplash.com/photo-1517841905240-472988babdf9",
-    "https://images.unsplash.com/photo-1520156551693-010041d5509c",
-    "https://images.unsplash.com/photo-1500917293891-ef795e70e1f6"
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "5.jpg",
+    "6.jpg",
+    "7.jpg",
+    "8.jpg",
+    "9.jpg",
 ]
 
 # Fotoğrafları sütunlara Masonry tarzı dağıtalım

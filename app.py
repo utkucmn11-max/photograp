@@ -3,7 +3,7 @@ import streamlit as st
 # 1. SAYFA AYARLARI
 st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. ÖZEL CSS (Sedef Mavi & Saf Siyah)
+# 2. ÖZEL CSS (Sedef Mavi & Saf Siyah & Hareketli Arka Plan)
 st.markdown("""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -12,11 +12,32 @@ st.markdown("""
         background-color: #000000;
         font-family: 'Inter', sans-serif;
         color: #ffffff;
+        
+        /* --- YENİ: MAAVİ ÇAPRAZ ÇİZGİLER (Hassas ve İnce) --- */
+        background-image: repeating-linear-gradient(
+            -45deg,
+            #000000 0px,
+            #000000 100px,
+            rgba(136, 204, 255, 0.03) 101px, /* Çok şeffaf sedef mavi line */
+            rgba(136, 204, 255, 0.03) 103px
+        );
+        background-size: 200% 200%;
+        animation: gradient-flow 60s linear infinite; /* Çok yavaş, süzülen hareket */
+        /* ----------------------------------------------- */
     }
+
+    /* --- YENİ: HAREKET ANİMASYONU --- */
+    @keyframes gradient-flow {
+        0% { background-position: 0% 0%; }
+        100% { background-position: 100% 100%; }
+    }
+    /* ----------------------------------- */
 
     /* Başlık: Sedef Mavi Parlama */
     .header-container {
         padding: 100px 0px 60px 8%;
+        position: relative; /* Arka plandan ayrışması için */
+        z-index: 10;
     }
     .main-title {
         font-weight: 100;
@@ -34,9 +55,15 @@ st.markdown("""
         margin-top: 10px;
     }
 
+    /* Mobil Uyumluluk: Başlık ve Kaydırma */
+    @media (max-width: 768px) {
+        .main-title { font-size: 4rem; }
+        [data-testid="column"]:nth-child(2) { margin-top: 0px !important; }
+    }
+
     /* Çapraz Duruş: Sağ sütun 180px aşağıdan başlar */
-    [data-testid="column"]:nth-child(2) {
-        margin-top: 180px; 
+    @media (min-width: 769px) {
+        [data-testid="column"]:nth-child(2) { margin-top: 180px; }
     }
 
     /* Fotoğraf Tasarımı ve Hover */
@@ -45,6 +72,8 @@ st.markdown("""
         margin-bottom: 120px; /* Fotoğraflar arası ferah boşluk */
         border: 1px solid #111;
         transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        z-index: 5;
     }
     [data-testid="stImage"]:hover {
         transform: scale(1.03);
@@ -65,10 +94,12 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# 4. VİTRİN (2 SÜTUNLU ASİMETRİK - 9 FOTOĞRAF
+# 4. VİTRİN (2 SÜTUNLU ASİMETRİK - Fotoğraflar
 col1, col2 = st.columns(2)
 
-# TOPLAM 9 FOTOĞRAF (İsimleri kendi dosyalarınla değiştir)
+# FOTOĞRAF LİSTESİ (Kendi dosyalarınla değiştir)
+# Not: Eğer dosyalar pt.py ile aynı klasördeyse doğrudan ismini yazman yeterli.
+# Burada örnek olarak senin kodundaki görselleri bıraktım.
 photos = [
     "9.jpg",
     "2.jpg",
@@ -76,8 +107,10 @@ photos = [
     "4.jpg",
     "8.jpg",
     "1.jpg",
+    # Eğer 9 fotoğrafın varsa buraya 7,8,9.jpg'leri ekleyebilirsin.
 ]
 
+# Görselleri Sütunlara Dağıtma
 for i, url in enumerate(photos):
     if i % 2 == 0:
         with col1:
@@ -88,5 +121,4 @@ for i, url in enumerate(photos):
 
 # 5. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #355; font-size: 20px; letter-spacing: 5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
- 
+st.markdown("<p style='text-align: center; color: #355; font-size: 20px; letter-spacing: 5px; position: relative; z-index: 10;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)

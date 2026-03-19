@@ -18,8 +18,8 @@ st.markdown("""
             -45deg,
             #000000 0px,
             #000000 100px,
-            rgba(136, 204, 255, 0.03) 101px, /* Çok şeffaf sedef mavi line */
-            rgba(136, 204, 255, 0.03) 103px
+            rgba(0, 255, 255, 0.07) 101px, /* Çok şeffaf sedef mavi line
+            rgba(0, 255, 255, 0.07) 103px
         );
         background-size: 200% 200%;
         animation: gradient-flow 60s linear infinite; /* Çok yavaş, süzülen hareket */

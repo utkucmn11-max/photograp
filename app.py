@@ -11,7 +11,10 @@ def get_visitor_count():
     
     # Mevcut sayıyı oku ve 1 artır
     with open(file_path, "r") as f:
-        count = int(f.read())
+        try:
+            count = int(f.read())
+        except:
+            count = 0
     
     new_count = count + 1
     
@@ -27,7 +30,7 @@ visitor_no = get_visitor_count()
 # 2. SAYFA AYARLARI
 st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 3. ÖZEL CSS (Tasarımını aynen korudum)
+# 3. ÖZEL CSS (Cam Göbeği & Saf Siyah & Hareketli Arka Plan)
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -36,6 +39,8 @@ st.markdown(f"""
         background-color: #000000;
         font-family: 'Inter', sans-serif;
         color: #ffffff;
+        
+        /* CAM GÖBEĞİ ÇİZGİLER */
         background-image: repeating-linear-gradient(
             -45deg,
             #000000 0px,
@@ -52,6 +57,7 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
+    /* Başlık Alanı */
     .header-container {{
         padding: 100px 0px 60px 8%;
         position: relative;
@@ -73,27 +79,32 @@ st.markdown(f"""
         margin-top: 10px;
     }}
 
-    /* Sayaç Tasarımı */
+    /* GÜNCELLENDİ: SOL KÖŞE SAYAÇ TASARIMI */
     .visitor-badge {{
         position: fixed;
-        bottom: 20px;
-        right: 20px;
+        bottom: 30px;
+        left: 30px; /* Sol köşeye çekildi */
         font-size: 0.7rem;
-        color: #008b8b;
-        letter-spacing: 3px;
+        color: #00ffff; /* Daha net cam göbeği */
+        letter-spacing: 4px;
         z-index: 100;
-        opacity: 0.5;
+        opacity: 0.6;
+        font-weight: 400;
     }}
 
+    /* Mobil Ayarlar */
     @media (max-width: 768px) {{
         .main-title {{ font-size: 4rem; }}
         [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
+        .visitor-badge {{ left: 15px; bottom: 15px; font-size: 0.6rem; }}
     }}
 
+    /* Masaüstü Sütun Kaydırma */
     @media (min-width: 769px) {{
         [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
     }}
 
+    /* Fotoğraflar */
     [data-testid="stImage"] {{
         border-radius: 0px;
         margin-bottom: 120px;
@@ -112,10 +123,10 @@ st.markdown(f"""
     #MainMenu, footer, header {{visibility: hidden;}}
     </style>
     
-    <div class="visitor-badge">VISITORS: {visitor_no}</div>
+    <div class="visitor-badge">VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. BAŞLIK
+# 4. BAŞLIK İÇERİĞİ
 st.markdown("""
     <div class="header-container">
         <div class="main-title">Utku Çimen </div>
@@ -123,10 +134,17 @@ st.markdown("""
     </div>
     """, unsafe_allow_html=True)
 
-# 5. VİTRİN
+# 5. VİTRİN (ASİMETRİK)
 col1, col2 = st.columns(2)
 
-photos = ["9.jpg", "2.jpg", "3.jpg", "4.jpg", "8.jpg", "1.jpg"]
+photos = [
+    "9.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "8.jpg",
+    "1.jpg",
+]
 
 for i, url in enumerate(photos):
     if i % 2 == 0:

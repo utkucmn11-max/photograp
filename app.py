@@ -24,25 +24,29 @@ def get_visitor_count():
 visitor_no = get_visitor_count()
 
 # 2. SAYFA AYARI
-st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+st.set_page_config(
+    page_title="UTKUÇİMEN | ARCHIVE",
+    layout="wide",
+    initial_sidebar_state="collapsed"
+)
 
-# 3. PREMIUM CSS + EFEKTLER
+# 3. PREMIUM TASARIM
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
 
 html, body, [data-testid="stAppViewContainer"] {{
-    background-color: #000000;
+    background-color: #000;
     font-family: 'Manrope', sans-serif;
-    color: #ffffff;
+    color: #fff;
     cursor: crosshair;
 
     background-image: repeating-linear-gradient(
         -45deg,
-        #000000 0px,
-        #000000 100px,
-        rgba(0, 255, 255, 0.05) 101px, 
-        rgba(0, 255, 255, 0.05) 103px
+        #000 0px,
+        #000 100px,
+        rgba(0,255,255,0.05) 101px,
+        rgba(0,255,255,0.05) 103px
     );
     background-size: 200% 200%;
     animation: gradient-flow 60s linear infinite;
@@ -53,7 +57,6 @@ html, body, [data-testid="stAppViewContainer"] {{
     100% {{ background-position: 100% 100%; }}
 }}
 
-/* BAŞLIK */
 .header-container {{
     padding: 100px 0px 60px 8%;
 }}
@@ -80,15 +83,14 @@ html, body, [data-testid="stAppViewContainer"] {{
     margin-top: 10px;
 }}
 
-/* FOTOĞRAF */
 [data-testid="stImage"] {{
-    border-radius: 0px;
     margin-bottom: 120px;
     border: 1px solid rgba(0,255,255,0.1);
     backdrop-filter: blur(10px);
     background: rgba(255,255,255,0.02);
     transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     position: relative;
+
     opacity: 0;
     transform: translateY(40px);
     animation: fadeUp 1s ease forwards;
@@ -97,7 +99,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 [data-testid="stImage"]:hover {{
     transform: scale(1.03);
     border: 1px solid #00ffff;
-    box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.25);
+    box-shadow: 0px 0px 40px rgba(0,255,255,0.25);
 }}
 
 [data-testid="stImage"]::after {{
@@ -124,7 +126,6 @@ html, body, [data-testid="stAppViewContainer"] {{
     }}
 }}
 
-/* SAYAÇ */
 .visitor-badge {{
     position: fixed;
     bottom: 30px;
@@ -135,26 +136,22 @@ html, body, [data-testid="stAppViewContainer"] {{
     opacity: 0.6;
 }}
 
-/* MOBİL */
 @media (max-width: 768px) {{
     .main-title {{ font-size: 4rem; }}
     .visitor-badge {{ left: 15px; bottom: 15px; }}
 }}
 
-/* MENÜ GİZLE */
 #MainMenu, footer, header {{visibility: hidden;}}
-
 </style>
 
-<!-- Mouse Glow -->
+<!-- HATASIZ MOUSE GLOW -->
 <script>
 document.addEventListener("mousemove", function(e) {{
     const x = e.clientX;
     const y = e.clientY;
-    document.body.style.backgroundImage = `
-        radial-gradient(circle at ${x}px ${y}px, rgba(0,255,255,0.08), transparent 300px),
-        repeating-linear-gradient(-45deg,#000 0px,#000 100px,rgba(0,255,255,0.05) 101px,rgba(0,255,255,0.05) 103px)
-    `;
+    document.body.style.backgroundImage =
+        "radial-gradient(circle at " + x + "px " + y + "px, rgba(0,255,255,0.08), transparent 300px)," +
+        "repeating-linear-gradient(-45deg,#000 0px,#000 100px,rgba(0,255,255,0.05) 101px,rgba(0,255,255,0.05) 103px)";
 }});
 </script>
 
@@ -191,4 +188,7 @@ for i, url in enumerate(photos):
 
 # 6. ALT YAZI
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #008b8b; font-size: 20px; letter-spacing: 5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
+st.markdown(
+    "<p style='text-align:center; color:#008b8b; font-size:20px; letter-spacing:5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>",
+    unsafe_allow_html=True
+)

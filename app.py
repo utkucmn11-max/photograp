@@ -15,11 +15,18 @@ def get_visitor_count():
 
 visitor_no = get_visitor_count()
 
-# 2. SAYFA AYARLARI
-# Panel başlangıçta kapalı (collapsed)
-st.set_page_config(page_title="PERSONAL ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+# 2. PANEL DURUMU KONTROLÜ (Session State)
+if 'sidebar_state' not in st.session_state:
+    st.session_state.sidebar_state = 'collapsed'
 
-# 3. ÖZEL CSS (Düğme Tasarımı ve Sayfa Stili)
+# 3. SAYFA AYARLARI
+st.set_page_config(
+    page_title="PERSONAL ARCHIVE", 
+    layout="wide", 
+    initial_sidebar_state=st.session_state.sidebar_state
+)
+
+# 4. ÖZEL CSS
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -44,7 +51,6 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    /* Üst Menü ve Gereksiz Alanları Gizle */
     #MainMenu, footer, header {{visibility: hidden;}}
     
     /* SET BUTONU TASARIMI */
@@ -59,49 +65,17 @@ st.markdown(f"""
         padding: 5px 15px;
         z-index: 1000;
         letter-spacing: 3px;
-        font-weight: 100;
-        transition: 0.3s;
-    }}
-    .stButton > button:hover {{
-        background-color: #00ffff;
-        color: #000;
-        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }}
 
-    .header-container {{
-        padding: 80px 0px 40px 8%;
-        position: relative;
-        z-index: 10;
-    }}
+    .header-container {{ padding: 80px 0px 40px 8%; }}
     .main-title {{
-        font-weight: 100;
-        letter-spacing: -3px;
-        font-size: 6rem;
-        line-height: 0.8;
-        color: #00ffff; 
-        text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        font-weight: 100; letter-spacing: -3px; font-size: 6rem;
+        color: #00ffff; text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
     }}
-    .sub-title {{
-        letter-spacing: 10px;
-        color: #444;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        margin-top: 15px;
-    }}
+    .sub-title {{ letter-spacing: 10px; color: #444; font-size: 0.8rem; text-transform: uppercase; }}
+    .visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.7rem; color: #00ffff; opacity: 0.6; }}
 
-    .visitor-badge {{
-        position: fixed; bottom: 30px; left: 30px;
-        font-size: 0.7rem; color: #00ffff;
-        letter-spacing: 4px; z-index: 100; opacity: 0.6;
-    }}
-
-    [data-testid="stImage"] {{
-        border-radius: 0px;
-        margin-bottom: 120px;
-        border: 1px solid #111;
-        transition: all 0.7s;
-    }}
-    
+    [data-testid="stImage"] {{ border: 1px solid #111; margin-bottom: 120px; }}
     [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
     
     @media (max-width: 768px) {{
@@ -109,28 +83,27 @@ st.markdown(f"""
         [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
     }}
     </style>
-    
     <div class="visitor-badge">GLOBAL VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. YAN PANEL İÇERİĞİ
-# Sidebar her zaman orada ama kullanıcı "SET" butonuna basınca Streamlit onu otomatik açar.
+# 5. SET BUTONU MANTIĞI
+if st.button("SET"):
+    # Butona basılınca durumu "expanded" yap ve sayfayı yenile
+    st.session_state.sidebar_state = 'expanded' if st.session_state.sidebar_state == 'collapsed' else 'collapsed'
+    st.rerun()
+
+# 6. YAN PANEL İÇERİĞİ
 with st.sidebar:
     st.markdown("### 🛠 CONTROL CENTER")
     user_name = st.text_input("Name / Nickname", "Utku Çimen")
     archive_year = st.text_input("Year", "2026")
-    
-    st.markdown("---")
-    st.markdown("### 📸 UPLOAD WORKS")
     uploaded_images = st.file_uploader("Select images", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
     
-    st.markdown("---")
-    st.caption("Panelden çıkmak için boş bir yere tıklamanız yeterlidir.")
+    if st.button("CLOSE"):
+        st.session_state.sidebar_state = 'collapsed'
+        st.rerun()
 
-# 5. SET BUTONU (Basıldığında sadece sayfayı tetikler, Streamlit sidebar'ı açar)
-st.button("SET")
-
-# 6. ANA BAŞLIK
+# 7. ANA İÇERİK
 st.markdown(f"""
     <div class="header-container">
         <div class="main-title">{user_name}</div>
@@ -138,9 +111,7 @@ st.markdown(f"""
     </div>
     """, unsafe_allow_html=True)
 
-# 7. VİTRİN
 col1, col2 = st.columns(2)
-
 if uploaded_images:
     for i, file in enumerate(uploaded_images):
         if i % 2 == 0:
@@ -148,8 +119,7 @@ if uploaded_images:
         else:
             with col2: st.image(file, use_container_width=True)
 else:
-    st.info("Please use the 'SET' button to upload your works.")
+    st.info("Kendi arşivini oluşturmak için sağ üstteki SET butonuna bas.")
 
-# 8. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
 st.markdown(f"<p style='text-align: center; color: #008b8b; font-size: 15px; letter-spacing: 5px;'>PORTFOLIO BY {user_name.upper()}</p>", unsafe_allow_html=True)

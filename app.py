@@ -15,10 +15,18 @@ def get_visitor_count():
 
 visitor_no = get_visitor_count()
 
-# 2. SAYFA AYARLARI
-st.set_page_config(page_title="PERSONAL ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+# 2. PANEL DURUMU (SESSION STATE) - Bu kısım butonun çalışmasını sağlar
+if 'sidebar_state' not in st.session_state:
+    st.session_state.sidebar_state = 'collapsed'
 
-# 3. KÖKTEN ÇÖZÜM: YÜZEN AYAR BUTONU VE TASARIM
+# 3. SAYFA AYARLARI
+st.set_page_config(
+    page_title="PERSONAL ARCHIVE", 
+    layout="wide", 
+    initial_sidebar_state=st.session_state.sidebar_state
+)
+
+# 4. ÖZEL CSS (Neon Buton ve Tasarım)
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -43,48 +51,34 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    /* EKRANIN SOLUNA YAPIŞIK DEVASA TETİKLEYİCİ */
-    .custom-trigger {{
-        position: fixed;
-        left: 0;
-        top: 45%;
-        width: 30px;
-        height: 100px;
-        background-color: rgba(0, 255, 255, 0.2);
-        border: 1px solid #00ffff;
-        border-left: none;
-        border-radius: 0 10px 10px 0;
-        z-index: 999999;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: 0.3s;
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
-    }}
-    
-    .custom-trigger:hover {{
-        width: 45px;
-        background-color: rgba(0, 255, 255, 0.8);
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
-    }}
-
-    .custom-trigger::after {{
-        content: '>';
-        color: white;
-        font-weight: bold;
-        font-size: 20px;
-    }}
-
-    /* Menü ve Header Gizleme */
+    /* STANDART MENÜLERİ GİZLE */
     #MainMenu, footer, header {{visibility: hidden;}}
+    [data-testid="stSidebarCollapsedControl"] {{display: none;}}
 
-    .header-container {{ padding: 80px 0px 40px 8%; }}
+    /* NEON SET BUTONU TASARIMI */
+    .stButton > button {{
+        background-color: transparent !important;
+        color: #00ffff !important;
+        border: 1px solid #00ffff !important;
+        border-radius: 0px !important;
+        width: 100% !important;
+        letter-spacing: 5px !important;
+        font-weight: 100 !important;
+        transition: 0.5s !important;
+        margin-top: 20px;
+    }}
+    .stButton > button:hover {{
+        background-color: rgba(0, 255, 255, 0.1) !important;
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.3) !important;
+    }}
+
+    .header-container {{ padding: 40px 0px 40px 8%; }}
     .main-title {{
         font-weight: 100; letter-spacing: -3px; font-size: 6rem;
         color: #00ffff; text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+        line-height: 0.8;
     }}
-    .sub-title {{ letter-spacing: 10px; color: #444; font-size: 0.8rem; text-transform: uppercase; }}
+    .sub-title {{ letter-spacing: 10px; color: #444; font-size: 0.8rem; text-transform: uppercase; margin-top: 20px; }}
     
     .visitor-badge {{ 
         position: fixed; bottom: 30px; left: 30px; 
@@ -99,25 +93,33 @@ st.markdown(f"""
     }}
     </style>
     
-    <div class="custom-trigger" onclick="document.querySelector('.st-emotion-cache-hp8886').click()"></div>
-    
     <div class="visitor-badge">GLOBAL VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. YAN PANEL İÇERİĞİ
-with st.sidebar:
-    st.markdown("### 🛠 SETTINGS")
-    user_name = st.text_input("Name", "Utku Çimen")
-    archive_year = st.text_input("Year", "2026")
-    uploaded_images = st.file_uploader("Upload Photos", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
-    st.markdown("---")
-    st.info("Panelden çıkmak için boş bir yere tıklayın.")
+# 5. AYAR BUTONU (Sayfanın En Üstünde)
+col_set1, col_set2, col_set3 = st.columns([4, 2, 4])
+with col_set2:
+    if st.button("OPEN SETTINGS"):
+        st.session_state.sidebar_state = "expanded"
+        st.rerun()
 
-# 5. ANA İÇERİK
+# 6. YAN PANEL İÇERİĞİ
+with st.sidebar:
+    st.markdown("### 🛠 KONTROL PANELİ")
+    user_name = st.text_input("İsim Yazın", "Utku Çimen")
+    archive_year = st.text_input("Yıl", "2026")
+    uploaded_images = st.file_uploader("Fotoğrafları Sürükle", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
+    
+    st.markdown("---")
+    if st.button("KAPAT"):
+        st.session_state.sidebar_state = "collapsed"
+        st.rerun()
+
+# 7. ANA İÇERİK
 st.markdown(f"""
     <div class="header-container">
         <div class="main-title">{user_name}</div>
-        <div class="sub-title">{archive_year} / PERSONAL ARŞİV / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
+        <div class="sub-title">{archive_year} / PERSONAL ARCHIVE / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -129,8 +131,8 @@ if uploaded_images:
         else:
             with col2: st.image(file, use_container_width=True)
 else:
-    st.info("Sol kenardaki cam göbeği çubuğa tıklayarak ayarları açabilirsin.")
+    st.info("Kendi arşivini oluşturmak için yukarıdaki 'OPEN SETTINGS' butonuna tıkla.")
 
-# 6. ALT BİLGİ
+# 8. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
 st.markdown(f"<p style='text-align: center; color: #008b8b; font-size: 15px; letter-spacing: 5px;'>PORTFOLIO BY {user_name.upper()}</p>", unsafe_allow_html=True)

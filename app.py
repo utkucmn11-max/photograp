@@ -1,140 +1,175 @@
 import streamlit as st
 import os
 
-# 1. ZİYARETÇİ SAYACI FONKSİYONU
+# 1. ZİYARETÇİ SAYACI
 def get_visitor_count():
     file_path = "counter.txt"
-    # Dosya yoksa oluştur ve 0 yaz
     if not os.path.exists(file_path):
         with open(file_path, "w") as f:
             f.write("0")
-    
-    # Mevcut sayıyı oku ve 1 artır
+
     with open(file_path, "r") as f:
         try:
             count = int(f.read())
         except:
             count = 0
-    
+
     new_count = count + 1
-    
-    # Yeni sayıyı dosyaya kaydet
+
     with open(file_path, "w") as f:
         f.write(str(new_count))
-    
+
     return new_count
 
-# Sayacı çalıştır
 visitor_no = get_visitor_count()
 
-# 2. SAYFA AYARLARI
-st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+# 2. SAYFA AYARI
+st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 3. ÖZEL CSS (Cam Göbeği & Saf Siyah & Hareketli Arka Plan)
+# 3. PREMIUM CSS + EFEKTLER
 st.markdown(f"""
-    <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
 
-    html, body, [data-testid="stAppViewContainer"] {{
-        background-color: #000000;
-        font-family: 'Inter', sans-serif;
-        color: #ffffff;
-        
-        /* CAM GÖBEĞİ ÇİZGİLER */
-        background-image: repeating-linear-gradient(
-            -45deg,
-            #000000 0px,
-            #000000 100px,
-            rgba(0, 255, 255, 0.05) 101px, 
-            rgba(0, 255, 255, 0.05) 103px
-        );
-        background-size: 200% 200%;
-        animation: gradient-flow 60s linear infinite; 
-    }}
+html, body, [data-testid="stAppViewContainer"] {{
+    background-color: #000000;
+    font-family: 'Manrope', sans-serif;
+    color: #ffffff;
+    cursor: crosshair;
 
-    @keyframes gradient-flow {{
-        0% {{ background-position: 0% 0%; }}
-        100% {{ background-position: 100% 100%; }}
-    }}
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #000000 0px,
+        #000000 100px,
+        rgba(0, 255, 255, 0.05) 101px, 
+        rgba(0, 255, 255, 0.05) 103px
+    );
+    background-size: 200% 200%;
+    animation: gradient-flow 60s linear infinite;
+}}
 
-    /* Başlık Alanı */
-    .header-container {{
-        padding: 100px 0px 60px 8%;
-        position: relative;
-        z-index: 10;
-    }}
-    .main-title {{
-        font-weight: 100;
-        letter-spacing: -3px;
-        font-size: 7rem;
-        line-height: 0.8;
-        color: #00ffff; 
-        text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
-    }}
-    .sub-title {{
-        letter-spacing: 10px;
-        color: #444;
-        font-size: 0.8rem;
-        text-transform: uppercase;
-        margin-top: 10px;
-    }}
+@keyframes gradient-flow {{
+    0% {{ background-position: 0% 0%; }}
+    100% {{ background-position: 100% 100%; }}
+}}
 
-    /* GÜNCELLENDİ: SOL KÖŞE SAYAÇ TASARIMI */
-    .visitor-badge {{
-        position: fixed;
-        bottom: 30px;
-        left: 30px; /* Sol köşeye çekildi */
-        font-size: 0.7rem;
-        color: #00ffff; /* Daha net cam göbeği */
-        letter-spacing: 4px;
-        z-index: 100;
-        opacity: 0.6;
-        font-weight: 400;
-    }}
+/* BAŞLIK */
+.header-container {{
+    padding: 100px 0px 60px 8%;
+}}
 
-    /* Mobil Ayarlar */
-    @media (max-width: 768px) {{
-        .main-title {{ font-size: 4rem; }}
-        [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
-        .visitor-badge {{ left: 15px; bottom: 15px; font-size: 0.6rem; }}
-    }}
+.main-title {{
+    font-weight: 200;
+    letter-spacing: -3px;
+    font-size: 7rem;
+    line-height: 0.8;
+    color: #00ffff;
+    animation: glowPulse 3s infinite alternate;
+}}
 
-    /* Masaüstü Sütun Kaydırma */
-    @media (min-width: 769px) {{
-        [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
-    }}
+@keyframes glowPulse {{
+    from {{ text-shadow: 0 0 10px rgba(0,255,255,0.3); }}
+    to {{ text-shadow: 0 0 40px rgba(0,255,255,0.9); }}
+}}
 
-    /* Fotoğraflar */
-    [data-testid="stImage"] {{
-        border-radius: 0px;
-        margin-bottom: 120px;
-        border: 1px solid #111;
-        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
-        position: relative;
-        z-index: 5;
-    }}
-    [data-testid="stImage"]:hover {{
-        transform: scale(1.03);
-        border: 1px solid #00ffff;
-        box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.25);
-        cursor: crosshair;
-    }}
+.sub-title {{
+    letter-spacing: 10px;
+    color: #444;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-top: 10px;
+}}
 
-    #MainMenu, footer, header {{visibility: hidden;}}
-    </style>
-    
-    <div class="visitor-badge">VISITORS // {visitor_no:04d}</div>
-    """, unsafe_allow_html=True)
+/* FOTOĞRAF */
+[data-testid="stImage"] {{
+    border-radius: 0px;
+    margin-bottom: 120px;
+    border: 1px solid rgba(0,255,255,0.1);
+    backdrop-filter: blur(10px);
+    background: rgba(255,255,255,0.02);
+    transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeUp 1s ease forwards;
+}}
 
-# 4. BAŞLIK İÇERİĞİ
+[data-testid="stImage"]:hover {{
+    transform: scale(1.03);
+    border: 1px solid #00ffff;
+    box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.25);
+}}
+
+[data-testid="stImage"]::after {{
+    content: "VIEW";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.8);
+    color: #00ffff;
+    opacity: 0;
+    transition: 0.4s;
+    letter-spacing: 5px;
+}}
+
+[data-testid="stImage"]:hover::after {{
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}}
+
+@keyframes fadeUp {{
+    to {{
+        opacity: 1;
+        transform: translateY(0px);
+    }}
+}}
+
+/* SAYAÇ */
+.visitor-badge {{
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    font-size: 0.7rem;
+    color: #00ffff;
+    letter-spacing: 4px;
+    opacity: 0.6;
+}}
+
+/* MOBİL */
+@media (max-width: 768px) {{
+    .main-title {{ font-size: 4rem; }}
+    .visitor-badge {{ left: 15px; bottom: 15px; }}
+}}
+
+/* MENÜ GİZLE */
+#MainMenu, footer, header {{visibility: hidden;}}
+
+</style>
+
+<!-- Mouse Glow -->
+<script>
+document.addEventListener("mousemove", function(e) {{
+    const x = e.clientX;
+    const y = e.clientY;
+    document.body.style.backgroundImage = `
+        radial-gradient(circle at ${x}px ${y}px, rgba(0,255,255,0.08), transparent 300px),
+        repeating-linear-gradient(-45deg,#000 0px,#000 100px,rgba(0,255,255,0.05) 101px,rgba(0,255,255,0.05) 103px)
+    `;
+}});
+</script>
+
+<div class="visitor-badge">VISITORS // {visitor_no:04d}</div>
+""", unsafe_allow_html=True)
+
+# 4. BAŞLIK
 st.markdown("""
-    <div class="header-container">
-        <div class="main-title">Utku Çimen </div>
-        <div class="sub-title">2026 / Kişisel Arşiv / 09 Works</div>
-    </div>
-    """, unsafe_allow_html=True)
+<div class="header-container">
+    <div class="main-title">Utku Çimen</div>
+    <div class="sub-title">2026 / Kişisel Arşiv / 09 Works</div>
+</div>
+""", unsafe_allow_html=True)
 
-# 5. VİTRİN (ASİMETRİK)
+# 5. FOTOĞRAFLAR
 col1, col2 = st.columns(2)
 
 photos = [
@@ -154,6 +189,6 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-# 6. ALT BİLGİ
+# 6. ALT YAZI
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown("<p style='text-align: center; color: #008b8b; font-size: 20px; letter-spacing: 5px; position: relative; z-index: 10;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #008b8b; font-size: 20px; letter-spacing: 5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)

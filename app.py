@@ -16,9 +16,10 @@ def get_visitor_count():
 visitor_no = get_visitor_count()
 
 # 2. SAYFA AYARLARI
+# Panel başlangıçta kapalı (collapsed)
 st.set_page_config(page_title="PERSONAL ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 3. ÖZEL CSS (Düğme ve Tasarım)
+# 3. ÖZEL CSS (Düğme Tasarımı ve Sayfa Stili)
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -43,31 +44,32 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    /* Üst Menü ve Footer Gizleme */
+    /* Üst Menü ve Gereksiz Alanları Gizle */
     #MainMenu, footer, header {{visibility: hidden;}}
-
-    /* ŞIK AYARLAR BUTONU TASARIMI */
-    div.stButton > button {{
+    
+    /* SET BUTONU TASARIMI */
+    .stButton > button {{
+        position: fixed;
+        top: 20px;
+        right: 40px;
         background-color: transparent;
         color: #00ffff;
         border: 1px solid #00ffff;
         border-radius: 0px;
-        padding: 10px 20px;
-        font-family: 'Inter', sans-serif;
+        padding: 5px 15px;
+        z-index: 1000;
+        letter-spacing: 3px;
         font-weight: 100;
-        letter-spacing: 2px;
-        transition: 0.4s;
-        box-shadow: 0 0 15px rgba(0, 255, 255, 0.1);
+        transition: 0.3s;
     }}
-
-    div.stButton > button:hover {{
+    .stButton > button:hover {{
         background-color: #00ffff;
         color: #000;
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.4);
+        box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
     }}
 
     .header-container {{
-        padding: 60px 0px 40px 8%;
+        padding: 80px 0px 40px 8%;
         position: relative;
         z-index: 10;
     }}
@@ -95,7 +97,7 @@ st.markdown(f"""
 
     [data-testid="stImage"] {{
         border-radius: 0px;
-        margin-bottom: 100px;
+        margin-bottom: 120px;
         border: 1px solid #111;
         transition: all 0.7s;
     }}
@@ -111,14 +113,8 @@ st.markdown(f"""
     <div class="visitor-badge">GLOBAL VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. ÜST KISIMDAKİ DÜĞME VE MANTIĞI
-col_btn1, col_btn2 = st.columns([8, 1])
-with col_btn2:
-    # Bu butona basınca Streamlit yan paneli tetiklenir
-    if st.button("SET"):
-        st.write('<style>[data-testid="stSidebar"] { display: block !important; }</style>', unsafe_allow_html=True)
-
-# 5. YAN PANEL İÇERİĞİ
+# 4. YAN PANEL İÇERİĞİ
+# Sidebar her zaman orada ama kullanıcı "SET" butonuna basınca Streamlit onu otomatik açar.
 with st.sidebar:
     st.markdown("### 🛠 CONTROL CENTER")
     user_name = st.text_input("Name / Nickname", "Utku Çimen")
@@ -126,13 +122,15 @@ with st.sidebar:
     
     st.markdown("---")
     st.markdown("### 📸 UPLOAD WORKS")
-    uploaded_images = st.file_uploader("Select files", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
+    uploaded_images = st.file_uploader("Select images", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
     
     st.markdown("---")
-    if st.button("CLOSE PANEL"):
-        st.write('<style>[data-testid="stSidebar"] { display: none !important; }</style>', unsafe_allow_html=True)
+    st.caption("Panelden çıkmak için boş bir yere tıklamanız yeterlidir.")
 
-# 6. BAŞLIK
+# 5. SET BUTONU (Basıldığında sadece sayfayı tetikler, Streamlit sidebar'ı açar)
+st.button("SET")
+
+# 6. ANA BAŞLIK
 st.markdown(f"""
     <div class="header-container">
         <div class="main-title">{user_name}</div>
@@ -150,8 +148,8 @@ if uploaded_images:
         else:
             with col2: st.image(file, use_container_width=True)
 else:
-    st.info("Please use the 'SET' button on the top right to upload your photos.")
+    st.info("Please use the 'SET' button to upload your works.")
 
 # 8. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown(f"<p style='text-align: center; color: #008b8b; font-size: 15px; letter-spacing: 5px;'>DESIGNED BY {user_name.upper()}</p>", unsafe_allow_html=True)
+st.markdown(f"<p style='text-align: center; color: #008b8b; font-size: 15px; letter-spacing: 5px;'>PORTFOLIO BY {user_name.upper()}</p>", unsafe_allow_html=True)

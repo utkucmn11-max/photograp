@@ -27,7 +27,7 @@ visitor_no = get_visitor_count()
 # 2. ELMASLARI OLUŞTUR (HATASIZ YÖNTEM)
 diamonds = ""
 for i in range(20):
-    diamonds += f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%10}s; animation-delay:{i*0.4}s;"></div>'
+    diamonds += f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%50}s; animation-delay:{i*0.4}s;"></div>'
 
 # 3. SAYFA AYARI
 st.set_page_config(

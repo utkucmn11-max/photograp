@@ -1,66 +1,37 @@
 import streamlit as st
 import os
-import time
-import requests
-import threading
-import schedule
-from datetime import datetime
 
-# ==========================================
-# 1. OTOMATİK GİRİŞ (BOT) FONKSİYONU
-# ==========================================
-def bot_gorevi():
-    # Sitenin yerel veya yayınlanmış adresini buraya yazabilirsin
-    # Eğer Streamlit Cloud'da kullanacaksan linki oradakiyle değiştir.
-    url = "http://localhost:8501" 
-    
-    def siteye_gir():
-        try:
-            response = requests.get(url)
-            print(f"[{datetime.now()}] Otomatik giriş başarılı: {response.status_code}")
-        except:
-            print(f"[{datetime.now()}] Siteye henüz ulaşılamıyor (Bot beklemede...)")
-
-    # Her gün saat 00:01'de çalışacak şekilde ayarla
-    schedule.every().day.at("00:01").do(siteye_gir)
-
-    while True:
-        schedule.run_pending()
-        time.sleep(30) # Her 30 saniyede bir saati kontrol et
-
-# Botu ana koddan bağımsız, arka planda başlat (Sadece 1 kez)
-if "bot_started" not in st.session_state:
-    thread = threading.Thread(target=bot_gorevi, daemon=True)
-    thread.start()
-    st.session_state.bot_started = True
-
-# ==========================================
-# 2. ZİYARETÇİ SAYACI
-# ==========================================
+# 1. ZİYARETÇİ SAYACI (Dosya tabanlı basit sayaç)
 def get_visitor_count():
     file_path = "counter.txt"
     if not os.path.exists(file_path):
-        with open(file_path, "w") as f:
-            f.write("0")
-    
+        with open(file_path, "w") as f: f.write("0")
     with open(file_path, "r") as f:
-        try:
-            count = int(f.read())
-        except:
-            count = 0
-    
+        try: count = int(f.read())
+        except: count = 0
     new_count = count + 1
-    with open(file_path, "w") as f:
-        f.write(str(new_count))
+    with open(file_path, "w") as f: f.write(str(new_count))
     return new_count
 
 visitor_no = get_visitor_count()
 
-# ==========================================
-# 3. SAYFA AYARLARI VE TASARIM (CSS)
-# ==========================================
-st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
+# 2. SAYFA AYARLARI
+st.set_page_config(page_title="PERSONAL ARCHIVE", layout="wide", initial_sidebar_state="expanded")
 
+# 3. YAN PANEL (KİŞİSELLEŞTİRME ARAÇLARI)
+with st.sidebar:
+    st.markdown("### 🛠 ÖZELLEŞTİR")
+    user_name = st.text_input("Adınız Soyadınız", "Utku Çimen")
+    archive_year = st.text_input("Arşiv Yılı", "2026")
+    
+    st.markdown("---")
+    st.markdown("### 📸 FOTOĞRAFLARINI YÜKLE")
+    uploaded_images = st.file_uploader("En fazla 10 fotoğraf seç", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
+    
+    st.markdown("---")
+    st.info("Fotoğrafları yüklediğinde sağdaki galeri anında güncellenir.")
+
+# 4. ÖZEL CSS (Tasarımını bozmadan dinamik hale getirdik)
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -85,26 +56,45 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    .header-container {{ padding: 100px 0px 60px 8%; position: relative; z-index: 10; }}
-    .main-title {{ font-weight: 100; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #00ffff; text-shadow: 0 0 25px rgba(0, 255, 255, 0.4); }}
-    .sub-title {{ letter-spacing: 10px; color: #444; font-size: 0.8rem; text-transform: uppercase; margin-top: 10px; }}
-
-    .visitor-badge {{
-        position: fixed;
-        bottom: 30px;
-        left: 30px;
-        font-size: 0.7rem;
-        color: #00ffff;
-        letter-spacing: 4px;
-        z-index: 100;
-        opacity: 0.6;
-        font-weight: 400;
+    .header-container {{
+        padding: 80px 0px 40px 8%;
+        position: relative;
+        z-index: 10;
+    }}
+    .main-title {{
+        font-weight: 100;
+        letter-spacing: -3px;
+        font-size: 6rem;
+        line-height: 0.8;
+        color: #00ffff; 
+        text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
+    }}
+    .sub-title {{
+        letter-spacing: 10px;
+        color: #444;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        margin-top: 15px;
     }}
 
-    /* Fotoğraflar */
+    .visitor-badge {{
+        position: fixed; bottom: 30px; left: 30px;
+        font-size: 0.7rem; color: #00ffff;
+        letter-spacing: 4px; z-index: 100; opacity: 0.6;
+    }}
+
+    @media (max-width: 768px) {{
+        .main-title {{ font-size: 3.5rem; }}
+        [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
+    }}
+
+    @media (min-width: 769px) {{
+        [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
+    }}
+
     [data-testid="stImage"] {{
         border-radius: 0px;
-        margin-bottom: 120px;
+        margin-bottom: 100px;
         border: 1px solid #111;
         transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     }}
@@ -112,34 +102,36 @@ st.markdown(f"""
         transform: scale(1.03);
         border: 1px solid #00ffff;
         box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.25);
-        cursor: crosshair;
     }}
 
     #MainMenu, footer, header {{visibility: hidden;}}
     </style>
     
-    <div class="visitor-badge">VISITORS // {visitor_no:04d}</div>
+    <div class="visitor-badge">GLOBAL VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. BAŞLIK
-st.markdown("""
+# 5. DİNAMİK BAŞLIK
+st.markdown(f"""
     <div class="header-container">
-        <div class="main-title">Utku Çimen</div>
-        <div class="sub-title">2026 / Kişisel Arşiv / 09 Works</div>
+        <div class="main-title">{user_name}</div>
+        <div class="sub-title">{archive_year} / KİŞİSEL ARŞİV / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 5. VİTRİN
+# 6. DİNAMİK VİTRİN
 col1, col2 = st.columns(2)
-photos = ["9.jpg", "2.jpg", "3.jpg", "4.jpg", "8.jpg", "1.jpg"]
 
-for i, url in enumerate(photos):
-    if i % 2 == 0:
-        with col1:
-            if os.path.exists(url): st.image(url, use_container_width=True)
-    else:
-        with col2:
-            if os.path.exists(url): st.image(url, use_container_width=True)
+if uploaded_images:
+    for i, file in enumerate(uploaded_images):
+        if i % 2 == 0:
+            with col1:
+                st.image(file, use_container_width=True)
+        else:
+            with col2:
+                st.image(file, use_container_width=True)
+else:
+    st.info("Sol taraftaki panelden fotoğraflarını yükleyerek kendi arşivini oluşturmaya başla! ✨")
 
-# 6. ALT BİLGİ
-st.markdown("<br><br><br><p style='text-align: center; color: #008b8b; font-size: 20px; letter-spacing: 5px;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)
+# 7. ALT BİLGİ
+st.markdown("<br><br><br>", unsafe_allow_html=True)
+st.markdown(f"<p style='text-align: center; color: #008b8b; font-size: 15px; letter-spacing: 5px;'>DESIGNED BY {user_name.upper()}</p>", unsafe_allow_html=True)

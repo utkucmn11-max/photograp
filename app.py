@@ -1,42 +1,52 @@
 import streamlit as st
 import os
 
-# 1. ZİYARETÇİ SAYACI (Hata vermemesi için try-except ekledim)
+# 1. ZİYARETÇİ SAYACI FONKSİYONU
 def get_visitor_count():
     file_path = "counter.txt"
+    # Dosya yoksa oluştur ve 0 yaz
     if not os.path.exists(file_path):
-        with open(file_path, "w") as f: f.write("0")
-    try:
-        with open(file_path, "r") as f:
+        with open(file_path, "w") as f:
+            f.write("0")
+    
+    # Mevcut sayıyı oku ve 1 artır
+    with open(file_path, "r") as f:
+        try:
             count = int(f.read())
-    except:
-        count = 0
+        except:
+            count = 0
+    
     new_count = count + 1
+    
+    # Yeni sayıyı dosyaya kaydet
     with open(file_path, "w") as f:
         f.write(str(new_count))
+    
     return new_count
 
+# Sayacı çalıştır
 visitor_no = get_visitor_count()
 
-# 2. SAYFA AYARLARI (Panel artık her zaman AÇIK - Hata ihtimali %0)
-st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="expanded")
+# 2. SAYFA AYARLARI
+st.set_page_config(page_title="UTKUÇİMEN| ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 3. ÖZEL CSS (Panel ve Galeri Tasarımı)
+# 3. ÖZEL CSS (Cam Göbeği & Saf Siyah & Hareketli Arka Plan)
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
 
-    /* Ana Arka Plan */
     html, body, [data-testid="stAppViewContainer"] {{
         background-color: #000000;
         font-family: 'Inter', sans-serif;
         color: #ffffff;
+        
+        /* CAM GÖBEĞİ ÇİZGİLER */
         background-image: repeating-linear-gradient(
             -45deg,
             #000000 0px,
             #000000 100px,
-            rgba(0, 255, 255, 0.03) 101px, 
-            rgba(0, 255, 255, 0.03) 103px
+            rgba(0, 255, 255, 0.05) 101px, 
+            rgba(0, 255, 255, 0.05) 103px
         );
         background-size: 200% 200%;
         animation: gradient-flow 60s linear infinite; 
@@ -47,98 +57,103 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    /* YAN PANEL (SIDEBAR) TASARIMI */
-    [data-testid="stSidebar"] {{
-        background-color: rgba(10, 10, 10, 0.8) !important;
-        border-right: 1px solid rgba(0, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-    }}
-    
-    /* Gereksiz Streamlit yazılarını gizle */
-    #MainMenu, footer, header, [data-testid="stSidebarNav"] {{visibility: hidden;}}
-
     /* Başlık Alanı */
     .header-container {{
-        padding: 60px 0px 40px 5%;
+        padding: 100px 0px 60px 8%;
+        position: relative;
+        z-index: 10;
     }}
     .main-title {{
         font-weight: 100;
         letter-spacing: -3px;
-        font-size: 5.5rem;
+        font-size: 7rem;
         line-height: 0.8;
         color: #00ffff; 
-        text-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
+        text-shadow: 0 0 25px rgba(0, 255, 255, 0.4);
     }}
     .sub-title {{
-        letter-spacing: 8px;
-        color: #555;
-        font-size: 0.7rem;
+        letter-spacing: 10px;
+        color: #444;
+        font-size: 0.8rem;
         text-transform: uppercase;
-        margin-top: 15px;
+        margin-top: 10px;
     }}
 
-    /* Ziyaretçi Sayacı (Sol Alt) */
+    /* GÜNCELLENDİ: SOL KÖŞE SAYAÇ TASARIMI */
     .visitor-badge {{
-        position: fixed; bottom: 20px; left: 20px;
-        font-size: 0.65rem; color: #00ffff;
-        letter-spacing: 3px; z-index: 1000; opacity: 0.4;
+        position: fixed;
+        bottom: 30px;
+        left: 30px; /* Sol köşeye çekildi */
+        font-size: 0.7rem;
+        color: #00ffff; /* Daha net cam göbeği */
+        letter-spacing: 4px;
+        z-index: 100;
+        opacity: 0.6;
+        font-weight: 400;
     }}
 
-    /* Fotoğraf Çerçeveleri */
+    /* Mobil Ayarlar */
+    @media (max-width: 768px) {{
+        .main-title {{ font-size: 4rem; }}
+        [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
+        .visitor-badge {{ left: 15px; bottom: 15px; font-size: 0.6rem; }}
+    }}
+
+    /* Masaüstü Sütun Kaydırma */
+    @media (min-width: 769px) {{
+        [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
+    }}
+
+    /* Fotoğraflar */
     [data-testid="stImage"] {{
+        border-radius: 0px;
+        margin-bottom: 120px;
         border: 1px solid #111;
-        margin-bottom: 80px;
-        transition: 0.5s ease;
+        transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        position: relative;
+        z-index: 5;
     }}
     [data-testid="stImage"]:hover {{
+        transform: scale(1.03);
         border: 1px solid #00ffff;
-        box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+        box-shadow: 0px 0px 40px rgba(0, 255, 255, 0.25);
+        cursor: crosshair;
     }}
 
-    /* Sağ sütun kaydırma efekti */
-    [data-testid="column"]:nth-child(2) {{ margin-top: 150px; }}
-
-    @media (max-width: 768px) {{
-        .main-title {{ font-size: 3rem; }}
-        [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
-    }}
+    #MainMenu, footer, header {{visibility: hidden;}}
     </style>
     
     <div class="visitor-badge">VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
-# 4. YAN PANEL (Her zaman orada, her zaman hazır)
-with st.sidebar:
-    st.markdown("<h2 style='color:#00ffff; font-weight:100; letter-spacing:2px;'>EDITOR</h2>", unsafe_allow_html=True)
-    user_name = st.text_input("Name", "Utku Çimen")
-    archive_year = st.text_input("Year", "2026")
-    
-    st.markdown("---")
-    uploaded_images = st.file_uploader("Upload Works", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
-    
-    st.markdown("<br><br>", unsafe_allow_html=True)
-    st.caption("Sol üstteki '>' okuna basarak bu paneli tamamen gizleyebilirsin.")
-
-# 5. ANA İÇERİK
-st.markdown(f"""
+# 4. BAŞLIK İÇERİĞİ
+st.markdown("""
     <div class="header-container">
-        <div class="main-title">{user_name}</div>
-        <div class="sub-title">{archive_year} / PERSONAL ARCHIVE / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
+        <div class="main-title">Utku Çimen </div>
+        <div class="sub-title">2026 / Kişisel Arşiv / 09 Works</div>
     </div>
     """, unsafe_allow_html=True)
 
-# 6. GALERİ (2 Sütunlu)
+# 5. VİTRİN (ASİMETRİK)
 col1, col2 = st.columns(2)
 
-if uploaded_images:
-    for i, file in enumerate(uploaded_images):
-        if i % 2 == 0:
-            with col1: st.image(file, use_container_width=True)
-        else:
-            with col2: st.image(file, use_container_width=True)
-else:
-    st.info("← Sol taraftaki panelden fotoğraflarını yüklemeye başla!")
+photos = [
+    "9.jpg",
+    "2.jpg",
+    "3.jpg",
+    "4.jpg",
+    "8.jpg",
+    "1.jpg",
+]
 
-# 7. ALT BİLGİ
+for i, url in enumerate(photos):
+    if i % 2 == 0:
+        with col1:
+            st.image(url, use_container_width=True)
+    else:
+        with col2:
+            st.image(url, use_container_width=True)
+
+# 6. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)
-st.markdown(f"<p style='text-align: center; color: #333; font-size: 14px; letter-spacing: 4px;'>PORTFOLIO BY {user_name.upper()}</p>", unsafe_allow_html=True)
+st.markdown("<p style='text-align: center; color: #008b8b; font-size: 20px; letter-spacing: 5px; position: relative; z-index: 10;'>Bu site Utku Çimen tarafından yapılmıştır.</p>", unsafe_allow_html=True)

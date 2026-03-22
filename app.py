@@ -18,7 +18,7 @@ visitor_no = get_visitor_count()
 # 2. SAYFA AYARLARI
 st.set_page_config(page_title="PERSONAL ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 3. ÖZEL CSS (Üçgen Tetikleyici ve Tasarım)
+# 3. KÖKTEN ÇÖZÜM: YÜZEN AYAR BUTONU VE TASARIM
 st.markdown(f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;400&display=swap');
@@ -43,42 +43,40 @@ st.markdown(f"""
         100% {{ background-position: 100% 100%; }}
     }}
 
-    /* SOL KENAR ÜÇGEN TETİKLEYİCİ */
-    [data-testid="stSidebarCollapsedControl"] {{
+    /* EKRANIN SOLUNA YAPIŞIK DEVASA TETİKLEYİCİ */
+    .custom-trigger {{
+        position: fixed;
         left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-        background-color: transparent !important;
-        border: none !important;
-        width: 40px !important;
-        height: 60px !important;
-    }}
-    
-    /* Standart oku gizleyip kendi cam göbeği üçgenimizi koyuyoruz */
-    [data-testid="stSidebarCollapsedControl"] svg {{
-        display: none;
-    }}
-    
-    [data-testid="stSidebarCollapsedControl"]::after {{
-        content: '';
-        position: absolute;
-        left: 0;
-        width: 0;
-        height: 0;
-        border-top: 20px solid transparent;
-        border-bottom: 20px solid transparent;
-        border-left: 15px solid #00ffff; /* Cam Göbeği Üçgen */
-        filter: drop-shadow(0 0 10px rgba(0, 255, 255, 0.8));
+        top: 45%;
+        width: 30px;
+        height: 100px;
+        background-color: rgba(0, 255, 255, 0.2);
+        border: 1px solid #00ffff;
+        border-left: none;
+        border-radius: 0 10px 10px 0;
+        z-index: 999999;
         cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         transition: 0.3s;
+        box-shadow: 0 0 15px rgba(0, 255, 255, 0.3);
     }}
     
-    [data-testid="stSidebarCollapsedControl"]:hover::after {{
-        border-left: 20px solid #ffffff;
-        filter: drop-shadow(0 0 20px #00ffff);
+    .custom-trigger:hover {{
+        width: 45px;
+        background-color: rgba(0, 255, 255, 0.8);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.6);
     }}
 
-    /* Üst Menü ve Gereksiz Alanları Gizle */
+    .custom-trigger::after {{
+        content: '>';
+        color: white;
+        font-weight: bold;
+        font-size: 20px;
+    }}
+
+    /* Menü ve Header Gizleme */
     #MainMenu, footer, header {{visibility: hidden;}}
 
     .header-container {{ padding: 80px 0px 40px 8%; }}
@@ -90,12 +88,9 @@ st.markdown(f"""
     
     .visitor-badge {{ 
         position: fixed; bottom: 30px; left: 30px; 
-        font-size: 0.7rem; color: #00ffff; opacity: 0.5; letter-spacing: 3px;
+        font-size: 0.7rem; color: #00ffff; opacity: 0.5;
     }}
 
-    [data-testid="stImage"] {{ border: 1px solid #111; margin-bottom: 120px; transition: 0.7s; }}
-    [data-testid="stImage"]:hover {{ border: 1px solid #00ffff; transform: scale(1.02); }}
-    
     [data-testid="column"]:nth-child(2) {{ margin-top: 180px; }}
     
     @media (max-width: 768px) {{
@@ -103,6 +98,9 @@ st.markdown(f"""
         [data-testid="column"]:nth-child(2) {{ margin-top: 0px !important; }}
     }}
     </style>
+    
+    <div class="custom-trigger" onclick="document.querySelector('.st-emotion-cache-hp8886').click()"></div>
+    
     <div class="visitor-badge">GLOBAL VISITORS // {visitor_no:04d}</div>
     """, unsafe_allow_html=True)
 
@@ -113,13 +111,13 @@ with st.sidebar:
     archive_year = st.text_input("Year", "2026")
     uploaded_images = st.file_uploader("Upload Photos", type=["jpg", "jpeg", "png"], accept_multiple_files=True)
     st.markdown("---")
-    st.caption("Paneli kapatmak için sayfaya dokun veya oku kullan.")
+    st.info("Panelden çıkmak için boş bir yere tıklayın.")
 
 # 5. ANA İÇERİK
 st.markdown(f"""
     <div class="header-container">
         <div class="main-title">{user_name}</div>
-        <div class="sub-title">{archive_year} / PERSONAL ARCHIVE / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
+        <div class="sub-title">{archive_year} / PERSONAL ARŞİV / {len(uploaded_images) if uploaded_images else 0} WORKS</div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -131,7 +129,7 @@ if uploaded_images:
         else:
             with col2: st.image(file, use_container_width=True)
 else:
-    st.info("Sol kenardaki cam göbeği üçgene tıklayarak fotoğraflarını yükle.")
+    st.info("Sol kenardaki cam göbeği çubuğa tıklayarak ayarları açabilirsin.")
 
 # 6. ALT BİLGİ
 st.markdown("<br><br><br>", unsafe_allow_html=True)

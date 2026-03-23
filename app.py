@@ -27,7 +27,7 @@ cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95
 # 3. SAYFA AYARI
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 4. TASARIM + ARKA PLAN ÇİZGİLERİ + INTRO
+# 4. TASARIM + BELİRGİN ÇİZGİLER + INTRO
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -38,16 +38,16 @@ html, body, [data-testid="stAppViewContainer"] {{
     color: #FFD700;
     overflow-x: hidden;
 
-    /* ARKA PLAN ÇİZGİLERİ (GERİ GELDİ) */
+    /* ÇİZGİLER BELİRGİNLEŞTİRİLDİ (Opaklık 0.1 yapıldı) */
     background-image: repeating-linear-gradient(
         -45deg,
         #000 0px,
-        #000 100px,
-        rgba(255, 215, 0, 0.01) 101px,
-        rgba(255, 215, 0, 0.01) 103px
+        #000 60px,
+        rgba(255, 215, 0, 0.1) 61px,
+        rgba(255, 215, 0, 0.1) 63px
     );
-    background-size: 500% 500%;
-    animation: gradient-flow 80s linear infinite;
+    background-size: 200% 200%;
+    animation: gradient-flow 60s linear infinite;
 }}
 
 @keyframes gradient-flow {{
@@ -81,8 +81,8 @@ html, body, [data-testid="stAppViewContainer"] {{
 }}
 
 @keyframes textGlow {{
-    from {{ text-shadow: 0 0 20px rgba(255,215,0,0.2); opacity: 0.6; }}
-    to {{ text-shadow: 0 0 70px rgba(255,215,0,0.9); opacity: 1; }}
+    from {{ text-shadow: 0 0 20px rgba(255,215,0,0.3); opacity: 0.6; }}
+    to {{ text-shadow: 0 0 80px rgba(255,215,0,1); opacity: 1; }}
 }}
 
 @keyframes fadeOutUp {{
@@ -92,13 +92,13 @@ html, body, [data-testid="stAppViewContainer"] {{
 
 /* ARKA PLAN OBJELERİ */
 .bg-overlay {{ position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; overflow: hidden; }}
-.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(255, 215, 0, 0.08); transform: rotate(45deg); animation: floatUp linear infinite; }}
-.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.6) sepia(1); }}
+.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(255, 215, 0, 0.15); transform: rotate(45deg); animation: floatUp linear infinite; }}
+.camera-float {{ position: absolute; font-size: 1.1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.7) sepia(1); }}
 
 @keyframes floatUp {{
     0% {{ transform: translateY(110vh) rotate(0deg); opacity: 0; }}
-    10% {{ opacity: 0.2; }}
-    90% {{ opacity: 0.2; }}
+    10% {{ opacity: 0.3; }}
+    90% {{ opacity: 0.3; }}
     100% {{ transform: translateY(-10vh) rotate(360deg); opacity: 0; }}
 }}
 
@@ -109,8 +109,8 @@ html, body, [data-testid="stAppViewContainer"] {{
 /* FOTOĞRAFLAR */
 [data-testid="stImage"] {{
     transition: all 0.6s ease;
-    border: 1px solid rgba(255,215,0,0.15);
-    background: rgba(255,215,0,0.02);
+    border: 1px solid rgba(255,215,0,0.25);
+    background: rgba(255,215,0,0.03);
 }}
 
 [data-testid="column"]:nth-child(2) [data-testid="stImage"] {{
@@ -124,10 +124,10 @@ html, body, [data-testid="stAppViewContainer"] {{
 [data-testid="stImage"]:hover {{
     transform: scale(1.03);
     border: 1px solid #FFD700;
-    box-shadow: 0 0 50px rgba(255,215,0,0.25);
+    box-shadow: 0 0 60px rgba(255,215,0,0.35);
 }}
 
-.visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.6; z-index: 20; }}
+.visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.8; z-index: 20; }}
 #MainMenu, footer, header {{visibility: hidden;}}
 </style>
 
@@ -147,7 +147,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 st.markdown(f"""
 <div class="header-container">
     <div class="main-title">Utku Çimen</div>
-    <div style="letter-spacing: 10px; color: #554400; font-size: 0.7rem; margin-top:20px;">
+    <div style="letter-spacing: 12px; color: #B8860B; font-size: 0.75rem; margin-top:20px; font-weight: 400;">
         2026 / OFFSET_LAYOUT / INDEX_09
     </div>
 </div>
@@ -165,4 +165,4 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#333; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)

@@ -1,6 +1,6 @@
-
 import streamlit as st
 import os
+import random
 
 # 1. ZİYARETÇİ SAYACI
 def get_visitor_count():
@@ -24,10 +24,17 @@ def get_visitor_count():
 
 visitor_no = get_visitor_count()
 
-# 2. ELMASLARI OLUŞTUR (HATASIZ YÖNTEM)
+# 2. ELMASLARI VE KAMERALARI OLUŞTUR
 diamonds = ""
 for i in range(20):
-    diamonds += f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%50}s; animation-delay:{i*0.4}s;"></div>'
+    diamonds += f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%5}s; animation-delay:{i*0.4}s;"></div>'
+
+cameras = ""
+for i in range(15): # 15 adet yüzen kamera
+    left_pos = random.randint(0, 95)
+    duration = random.randint(15, 25)
+    delay = random.uniform(0, 10)
+    cameras += f'<div class="camera-float" style="left:{left_pos}%; animation-duration:{duration}s; animation-delay:{delay}s;">📷</div>'
 
 # 3. SAYFA AYARI
 st.set_page_config(
@@ -63,8 +70,8 @@ html, body, [data-testid="stAppViewContainer"] {{
     100% {{ background-position: 100% 100%; }}
 }}
 
-/* ELMAS ARKA PLAN */
-.diamond-bg {{
+/* ELMAS VE KAMERA ARKA PLAN SİSTEMİ */
+.bg-overlay {{
     position: fixed;
     width: 100%;
     height: 100%;
@@ -81,15 +88,23 @@ html, body, [data-testid="stAppViewContainer"] {{
     height: 10px;
     background: rgba(0, 255, 255, 0.08);
     transform: rotate(45deg);
-    animation: floatDiamond linear infinite;
+    animation: floatUp linear infinite;
     filter: blur(0.5px);
 }}
 
-@keyframes floatDiamond {{
-    0% {{ transform: translateY(100vh) rotate(45deg); opacity: 0; }}
-    10% {{ opacity: 0.3; }}
-    90% {{ opacity: 0.3; }}
-    100% {{ transform: translateY(-10vh) rotate(45deg); opacity: 0; }}
+.camera-float {{
+    position: absolute;
+    font-size: 1.2rem;
+    opacity: 0;
+    animation: floatUp linear infinite;
+    filter: grayscale(1) brightness(0.5); /* Siyaha yakın, çok parlamayan bir görünüm */
+}}
+
+@keyframes floatUp {{
+    0% {{ transform: translateY(110vh) rotate(0deg); opacity: 0; }}
+    10% {{ opacity: 0.2; }}
+    90% {{ opacity: 0.2; }}
+    100% {{ transform: translateY(-10vh) rotate(360deg); opacity: 0; }}
 }}
 
 /* BAŞLIK */
@@ -186,12 +201,11 @@ html, body, [data-testid="stAppViewContainer"] {{
 #MainMenu, footer, header {{visibility: hidden;}}
 </style>
 
-<!-- ELMASLAR -->
-<div class="diamond-bg">
+<div class="bg-overlay">
 {diamonds}
+{cameras}
 </div>
 
-<!-- MOUSE GLOW -->
 <script>
 document.addEventListener("mousemove", function(e) {{
     const x = e.clientX;

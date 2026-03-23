@@ -46,7 +46,7 @@ html, body, [data-testid="stAppViewContainer"] {{
         rgba(255, 215, 0, 0.03) 101px,
         rgba(255, 215, 0, 0.03) 103px
     );
-    background-size: 200% 200%;
+    background-size: 500% 500%;
     animation: gradient-flow 80s linear infinite;
 }}
 

@@ -27,7 +27,7 @@ cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95
 # 3. SAYFA AYARI
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 4. TASARIM + PARÇALANMA ANIMASYONU CSS
+# 4. TASARIM + INTRO ANIMASYONU CSS
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -39,7 +39,7 @@ html, body, [data-testid="stAppViewContainer"] {{
     overflow-x: hidden;
 }}
 
-/* KARŞILAMA EKRANI VE PARÇALANMA EFEKTİ */
+/* KARŞILAMA EKRANI (INTRO) */
 #intro-layer {{
     position: fixed;
     top: 0;
@@ -51,85 +51,26 @@ html, body, [data-testid="stAppViewContainer"] {{
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    /* Ana katman 4s sonra tamamen kaybolur */
-    animation: hideIntroLayer 0.1s ease-in-out 5s forwards;
+    animation: fadeOutUp 1s ease-in-out 4s forwards;
 }}
 
-.intro-text-wrapper {{
-    position: relative;
+.intro-text {{
     font-size: 8vw;
     font-weight: 200;
     letter-spacing: -5px;
     color: #00ffff;
     text-transform: uppercase;
-    text-shadow: 0 0 20px rgba(0,255,255,0.4);
+    animation: textGlow 2s infinite alternate;
 }}
 
-/* Parçaları oluşturmak için ortak sınıf */
-.text-fragment {{
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0; /* Başlangıçta görünmez */
+@keyframes textGlow {{
+    from {{ text-shadow: 0 0 20px rgba(0,255,255,0.2); opacity: 0.5; }}
+    to {{ text-shadow: 0 0 50px rgba(0,255,255,0.8); opacity: 1; }}
 }}
 
-/* 1. Parça (Sol Üst) */
-.fragment-1 {{
-    clip-path: polygon(0 0, 50% 0, 50% 50%, 0 50%);
-    animation: fragmentIn 0.5s ease-out 0s forwards, fragmentOut1 1.5s ease-in 4s forwards;
-}}
-
-/* 2. Parça (Sağ Üst) */
-.fragment-2 {{
-    clip-path: polygon(50% 0, 100% 0, 100% 50%, 50% 50%);
-    animation: fragmentIn 0.5s ease-out 0.3s forwards, fragmentOut2 1.5s ease-in 4s forwards;
-}}
-
-/* 3. Parça (Sol Alt) */
-.fragment-3 {{
-    clip-path: polygon(0 50%, 50% 50%, 50% 100%, 0 100%);
-    animation: fragmentIn 0.5s ease-out 0.6s forwards, fragmentOut3 1.5s ease-in 4s forwards;
-}}
-
-/* 4. Parça (Sağ Alt) */
-.fragment-4 {{
-    clip-path: polygon(50% 50%, 100% 50%, 100% 100%, 50% 100%);
-    animation: fragmentIn 0.5s ease-out 0.9s forwards, fragmentOut4 1.5s ease-in 4s forwards;
-}}
-
-/* Giriş Animasyonu: Parçalar sırayla birleşir */
-@keyframes fragmentIn {{
-    0% {{ opacity: 0; transform: scale(1.2); }}
-    100% {{ opacity: 1; transform: scale(1); }}
-}}
-
-/* Parçalanma Animasyonları: 4 saniye sonra farklı yönlere dağılma */
-@keyframes fragmentOut1 {{
-    0% {{ transform: translate(0, 0) rotate(0deg); opacity: 1; }}
-    100% {{ transform: translate(-100%, -100%) rotate(-45deg); opacity: 0; }}
-}}
-
-@keyframes fragmentOut2 {{
-    0% {{ transform: translate(0, 0) rotate(0deg); opacity: 1; }}
-    100% {{ transform: translate(100%, -100%) rotate(45deg); opacity: 0; }}
-}}
-
-@keyframes fragmentOut3 {{
-    0% {{ transform: translate(0, 0) rotate(0deg); opacity: 1; }}
-    100% {{ transform: translate(-100%, 100%) rotate(45deg); opacity: 0; }}
-}}
-
-@keyframes fragmentOut4 {{
-    0% {{ transform: translate(0, 0) rotate(0deg); opacity: 1; }}
-    100% {{ transform: translate(100%, 100%) rotate(-45deg); opacity: 0; }}
-}}
-
-/* Ana intro katmanını gizleme animasyonu */
-@keyframes hideIntroLayer {{
-    0% {{ opacity: 1; visibility: visible; }}
-    100% {{ opacity: 0; visibility: hidden; }}
+@keyframes fadeOutUp {{
+    0% {{ transform: translateY(0); }}
+    100% {{ transform: translateY(-110%); visibility: hidden; }}
 }}
 
 /* ARKA PLAN */
@@ -174,12 +115,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 </style>
 
 <div id="intro-layer">
-    <div class="intro-text-wrapper">
-        <div class="text-fragment fragment-1">Utku Çimen</div>
-        <div class="text-fragment fragment-2">Utku Çimen</div>
-        <div class="text-fragment fragment-3">Utku Çimen</div>
-        <div class="text-fragment fragment-4">Utku Çimen</div>
-    </div>
+    <div class="intro-text">Utku Çimen</div>
 </div>
 
 <div class="bg-overlay">
@@ -212,4 +148,4 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#222; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 3.0</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#222; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 2.2</p>", unsafe_allow_html=True)

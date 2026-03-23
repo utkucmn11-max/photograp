@@ -35,7 +35,7 @@ st.markdown(f"""
 html, body, [data-testid="stAppViewContainer"] {{
     background-color: #000;
     font-family: 'Manrope', sans-serif;
-    color: #fff;
+    color: #FFD700; /* Ana metin rengi Gold */
     overflow-x: hidden;
 }}
 
@@ -55,17 +55,18 @@ html, body, [data-testid="stAppViewContainer"] {{
 }}
 
 .intro-text {{
-    font-size: 8vw;
+    font-size: 15vw; /* YAZI BÜYÜTÜLDÜ */
     font-weight: 200;
-    letter-spacing: -5px;
-    color: #00ffff;
+    letter-spacing: -10px;
+    color: #FFD700; /* Gold */
     text-transform: uppercase;
+    white-space: nowrap;
     animation: textGlow 2s infinite alternate;
 }}
 
 @keyframes textGlow {{
-    from {{ text-shadow: 0 0 20px rgba(0,255,255,0.2); opacity: 0.5; }}
-    to {{ text-shadow: 0 0 50px rgba(0,255,255,0.8); opacity: 1; }}
+    from {{ text-shadow: 0 0 20px rgba(255,215,0,0.2); opacity: 0.6; }}
+    to {{ text-shadow: 0 0 70px rgba(255,215,0,0.9); opacity: 1; }}
 }}
 
 @keyframes fadeOutUp {{
@@ -75,8 +76,8 @@ html, body, [data-testid="stAppViewContainer"] {{
 
 /* ARKA PLAN */
 .bg-overlay {{ position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; overflow: hidden; }}
-.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(0, 255, 255, 0.05); transform: rotate(45deg); animation: floatUp linear infinite; }}
-.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.3); }}
+.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(255, 215, 0, 0.1); transform: rotate(45deg); animation: floatUp linear infinite; }}
+.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.5) sepia(1) saturate(3); }}
 
 @keyframes floatUp {{
     0% {{ transform: translateY(110vh) rotate(0deg); opacity: 0; }}
@@ -87,13 +88,13 @@ html, body, [data-testid="stAppViewContainer"] {{
 
 /* BAŞLIK */
 .header-container {{ padding: 120px 0px 100px 8%; position: relative; z-index: 10; }}
-.main-title {{ font-weight: 200; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #00ffff; }}
+.main-title {{ font-weight: 200; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #FFD700; }}
 
 /* FOTOĞRAF DÜZENİ */
 [data-testid="stImage"] {{
     transition: all 0.6s ease;
-    border: 1px solid rgba(0,255,255,0.1);
-    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,215,0,0.2);
+    background: rgba(255,215,0,0.02);
 }}
 
 [data-testid="column"]:nth-child(2) [data-testid="stImage"] {{
@@ -106,11 +107,11 @@ html, body, [data-testid="stAppViewContainer"] {{
 
 [data-testid="stImage"]:hover {{
     transform: scale(1.03);
-    border: 1px solid #00ffff;
-    box-shadow: 0 0 30px rgba(0,255,255,0.2);
+    border: 1px solid #FFD700;
+    box-shadow: 0 0 50px rgba(255,215,0,0.3);
 }}
 
-.visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #00ffff; letter-spacing: 4px; opacity: 0.4; z-index: 20; }}
+.visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.6; z-index: 20; }}
 #MainMenu, footer, header {{visibility: hidden;}}
 </style>
 
@@ -130,7 +131,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 st.markdown(f"""
 <div class="header-container">
     <div class="main-title">Utku Çimen</div>
-    <div style="letter-spacing: 10px; color: #444; font-size: 0.7rem; margin-top:20px;">
+    <div style="letter-spacing: 10px; color: #8B4513; font-size: 0.7rem; margin-top:20px;">
         2026 / OFFSET_LAYOUT / INDEX_09
     </div>
 </div>
@@ -148,4 +149,4 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#222; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 2.2</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#444; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 3.0 // GOLD_EDITION</p>", unsafe_allow_html=True)

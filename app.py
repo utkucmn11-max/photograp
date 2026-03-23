@@ -27,7 +27,7 @@ cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95
 # 3. SAYFA AYARI
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 4. TASARIM
+# 4. TASARIM + ÇAPRAZ DİZİLİM CSS
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -36,13 +36,18 @@ html, body, [data-testid="stAppViewContainer"] {{
     background-color: #000;
     font-family: 'Manrope', sans-serif;
     color: #fff;
+    cursor: none;
     overflow-x: hidden;
 }}
+
+/* ÖZEL İMLEÇ */
+#cursor-dot {{ width: 5px; height: 5px; background: #00ffff; position: fixed; border-radius: 50%; pointer-events: none; z-index: 9999; }}
+#cursor-outline {{ width: 35px; height: 35px; border: 1px solid rgba(0, 255, 255, 0.3); position: fixed; border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.1s; }}
 
 /* ARKA PLAN */
 .bg-overlay {{ position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; overflow: hidden; }}
 .diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(0, 255, 255, 0.05); transform: rotate(45deg); animation: floatUp linear infinite; }}
-.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.3); }}
+.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: grayscale(1) brightness(0.2); }}
 
 @keyframes floatUp {{
     0% {{ transform: translateY(110vh) rotate(0deg); opacity: 0; }}
@@ -55,24 +60,26 @@ html, body, [data-testid="stAppViewContainer"] {{
 .header-container {{ padding: 120px 0px 100px 8%; position: relative; z-index: 10; }}
 .main-title {{ font-weight: 200; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #00ffff; }}
 
-/* FOTOĞRAF DÜZENİ */
-[data-testid="stImage"] {{
+/* ÇAPRAZ FOTOĞRAF DÜZENİ */
+.stImage {{
     transition: all 0.6s ease;
+    filter: grayscale(1) contrast(1.1);
     border: 1px solid rgba(0,255,255,0.1);
-    background: rgba(255,255,255,0.02);
 }}
 
-/* Çapraz görünüm için sağ sütunu aşağı kaydırıyoruz */
+/* Sağ sütundaki resimleri aşağı kaydırarak çapraz görünüm veriyoruz */
 [data-testid="column"]:nth-child(2) [data-testid="stImage"] {{
     margin-top: 150px;
 }}
 
+/* Resimlerin arasındaki boşluğu artır */
 [data-testid="stImage"] {{
     margin-bottom: 150px !important;
 }}
 
-[data-testid="stImage"]:hover {{
-    transform: scale(1.03);
+.stImage:hover {{
+    filter: grayscale(0) contrast(1);
+    transform: scale(1.05);
     border: 1px solid #00ffff;
     box-shadow: 0 0 30px rgba(0,255,255,0.2);
 }}
@@ -81,10 +88,23 @@ html, body, [data-testid="stAppViewContainer"] {{
 #MainMenu, footer, header {{visibility: hidden;}}
 </style>
 
+<div id="cursor-dot"></div>
+<div id="cursor-outline"></div>
+
 <div class="bg-overlay">
     {diamonds}
     {cameras}
 </div>
+
+<script>
+const dot = document.getElementById("cursor-dot");
+const outline = document.getElementById("cursor-outline");
+window.addEventListener("mousemove", (e) => {{
+    dot.style.transform = `translate(${{e.clientX}}px, ${{e.clientY}}px)`;
+    outline.style.transform = `translate(${{e.clientX - 15}}px, ${{e.clientY - 15}}px)`;
+    document.body.style.background = `radial-gradient(circle at ${{e.clientX}}px ${{e.clientY}}px, rgba(0,255,255,0.03) 0%, black 70%)`;
+}});
+</script>
 
 <div class="visitor-badge">ARCHIVE_SYSTEM // {visitor_no:05d}</div>
 """, unsafe_allow_html=True)
@@ -99,7 +119,7 @@ st.markdown(f"""
 </div>
 """, unsafe_allow_html=True)
 
-# 6. FOTOĞRAFLAR
+# 6. FOTOĞRAFLAR (ÇAPRAZ AKIŞ)
 col1, col2 = st.columns(2)
 photos = ["9.jpg", "2.jpg", "3.jpg", "4.jpg", "8.jpg", "1.jpg"]
 
@@ -111,4 +131,4 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#222; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 2.1</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#222; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 2.0</p>", unsafe_allow_html=True)

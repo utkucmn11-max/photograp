@@ -27,7 +27,7 @@ cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95
 # 3. SAYFA AYARI
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 4. TASARIM + INTRO ANIMASYONU CSS
+# 4. TASARIM + ARKA PLAN ÇİZGİLERİ + INTRO
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -35,11 +35,27 @@ st.markdown(f"""
 html, body, [data-testid="stAppViewContainer"] {{
     background-color: #000;
     font-family: 'Manrope', sans-serif;
-    color: #FFD700; /* Ana metin rengi Gold */
+    color: #FFD700;
     overflow-x: hidden;
+
+    /* ARKA PLAN ÇİZGİLERİ (GERİ GELDİ) */
+    background-image: repeating-linear-gradient(
+        -45deg,
+        #000 0px,
+        #000 100px,
+        rgba(255, 215, 0, 0.03) 101px,
+        rgba(255, 215, 0, 0.03) 103px
+    );
+    background-size: 200% 200%;
+    animation: gradient-flow 80s linear infinite;
 }}
 
-/* KARŞILAMA EKRANI (INTRO) */
+@keyframes gradient-flow {{
+    0% {{ background-position: 0% 0%; }}
+    100% {{ background-position: 100% 100%; }}
+}}
+
+/* KARŞILAMA EKRANI */
 #intro-layer {{
     position: fixed;
     top: 0;
@@ -55,10 +71,10 @@ html, body, [data-testid="stAppViewContainer"] {{
 }}
 
 .intro-text {{
-    font-size: 15vw; /* YAZI BÜYÜTÜLDÜ */
+    font-size: 15vw;
     font-weight: 200;
     letter-spacing: -10px;
-    color: #FFD700; /* Gold */
+    color: #FFD700;
     text-transform: uppercase;
     white-space: nowrap;
     animation: textGlow 2s infinite alternate;
@@ -74,10 +90,10 @@ html, body, [data-testid="stAppViewContainer"] {{
     100% {{ transform: translateY(-110%); visibility: hidden; }}
 }}
 
-/* ARKA PLAN */
+/* ARKA PLAN OBJELERİ */
 .bg-overlay {{ position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 1; overflow: hidden; }}
-.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(255, 215, 0, 0.1); transform: rotate(45deg); animation: floatUp linear infinite; }}
-.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.5) sepia(1) saturate(3); }}
+.diamond {{ position: absolute; width: 8px; height: 8px; background: rgba(255, 215, 0, 0.08); transform: rotate(45deg); animation: floatUp linear infinite; }}
+.camera-float {{ position: absolute; font-size: 1rem; opacity: 0; animation: floatUp linear infinite; filter: brightness(0.6) sepia(1); }}
 
 @keyframes floatUp {{
     0% {{ transform: translateY(110vh) rotate(0deg); opacity: 0; }}
@@ -90,10 +106,10 @@ html, body, [data-testid="stAppViewContainer"] {{
 .header-container {{ padding: 120px 0px 100px 8%; position: relative; z-index: 10; }}
 .main-title {{ font-weight: 200; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #FFD700; }}
 
-/* FOTOĞRAF DÜZENİ */
+/* FOTOĞRAFLAR */
 [data-testid="stImage"] {{
     transition: all 0.6s ease;
-    border: 1px solid rgba(255,215,0,0.2);
+    border: 1px solid rgba(255,215,0,0.15);
     background: rgba(255,215,0,0.02);
 }}
 
@@ -108,7 +124,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 [data-testid="stImage"]:hover {{
     transform: scale(1.03);
     border: 1px solid #FFD700;
-    box-shadow: 0 0 50px rgba(255,215,0,0.3);
+    box-shadow: 0 0 50px rgba(255,215,0,0.25);
 }}
 
 .visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.6; z-index: 20; }}
@@ -131,7 +147,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 st.markdown(f"""
 <div class="header-container">
     <div class="main-title">Utku Çimen</div>
-    <div style="letter-spacing: 10px; color: #8B4513; font-size: 0.7rem; margin-top:20px;">
+    <div style="letter-spacing: 10px; color: #554400; font-size: 0.7rem; margin-top:20px;">
         2026 / OFFSET_LAYOUT / INDEX_09
     </div>
 </div>
@@ -149,4 +165,4 @@ for i, url in enumerate(photos):
         with col2:
             st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#444; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // VER 3.0 // GOLD_EDITION</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#333; letter-spacing:10px; font-size:0.6rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION</p>", unsafe_allow_html=True)

@@ -37,15 +37,13 @@ visitor_no = get_visitor_count()
 # 4. ARKA PLAN ÖĞELERİ
 @st.cache_data
 def get_static_elements():
-    # Elmaslar: YUKARIDAN AŞAĞIYA
     diamond_floats = "".join([f'<div class="diamond-float" style="left:{random.randint(0, 95)}%; animation-duration:{random.randint(10, 20)}s; animation-delay:{random.uniform(0, 5)}s;">💎</div>' for i in range(15)])
-    # Kameralar: AŞAĞIDAN YUKARIYA
     camera_floats = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95)}%; animation-duration:{random.randint(15, 25)}s; animation-delay:{random.uniform(0, 5)}s;">📷</div>' for i in range(10)])
     return diamond_floats, camera_floats
 
 diamond_floats, camera_floats = get_static_elements()
 
-# 5. CSS + HTML
+# 5. CSS + HTML (Çizgiler belirginleştirildi: opacity 0.05 -> 0.15)
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -55,21 +53,26 @@ html, body, [data-testid="stAppViewContainer"] {{
     font-family: 'Manrope', sans-serif;
     color: #FFD700;
     overflow-x: hidden;
-    /* Çizgiler */
-    background-image: repeating-linear-gradient(-45deg, #000 0px, #000 100px, rgba(255, 215, 0, 0.05) 61px, rgba(255, 215, 0, 0.05) 63px);
+    
+    /* ÇİZGİLER BURADA GÜNCELLENDİ (Daha opak ve net) */
+    background-image: repeating-linear-gradient(
+        -45deg, 
+        #000 0px, 
+        #000 60px, 
+        rgba(255, 215, 0, 0.15) 61px, 
+        rgba(255, 215, 0, 0.15) 63px
+    );
     background-size: 200% 200%;
-    animation: gradient-flow 60s linear infinite;
+    animation: gradient-flow 80s linear infinite;
 }}
 
-@keyframes gradient-flow {{ 0% {{ background-position: 0% 0%; }} 40% {{ background-position: 100% 100%; }} }}
+@keyframes gradient-flow {{ 0% {{ background-position: 0% 0%; }} 100% {{ background-position: 100% 100%; }} }}
 
-/* Intro Layer */
 #intro-layer {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeOutUp 1s ease-in-out 2s forwards; }}
 .intro-text {{ font-size: 15vw; font-weight: 200; letter-spacing: -10px; color: #FFD700; text-transform: uppercase; white-space: nowrap; animation: textGlow 2s infinite alternate; }}
 @keyframes textGlow {{ from {{ text-shadow: 0 0 20px rgba(255,215,0,0.3); opacity: 0.6; }} to {{ text-shadow: 0 0 80px rgba(255,215,0,1); opacity: 1; }} }}
 @keyframes fadeOutUp {{ 0% {{ transform: translateY(0); }} 100% {{ transform: translateY(-110%); visibility: hidden; }} }}
 
-/* EMOJI KATMANI (Fotoğrafların arkasında, çizgilerin üstünde) */
 .bg-overlay {{ 
     position: fixed; 
     width: 100%; 
@@ -79,53 +82,28 @@ html, body, [data-testid="stAppViewContainer"] {{
     pointer-events: none; 
     z-index: 0; 
     overflow: hidden;
-    background: transparent;
 }}
 
-.diamond-float {{ 
-    position: absolute; 
-    font-size: 1.2rem; 
-    opacity: 0.4; 
-    filter: drop-shadow(0 0 5px rgba(255,215,0,0.3));
-    animation: floatDown linear infinite; 
-}}
+.diamond-float {{ position: absolute; font-size: 1.2rem; opacity: 0.35; animation: floatDown linear infinite; }}
+.camera-float {{ position: absolute; font-size: 1rem; opacity: 0.15; animation: floatUp linear infinite; }}
 
-.camera-float {{ 
-    position: absolute; 
-    font-size: 1rem; 
-    opacity: 0.2; 
-    animation: floatUp linear infinite; 
-}}
-
-@keyframes floatDown {{ 
-    0% {{ transform: translateY(-15vh) rotate(0deg); opacity: 0; }} 
-    10% {{ opacity: 0.4; }}
-    90% {{ opacity: 0.4; }}
-    100% {{ transform: translateY(115vh) rotate(360deg); opacity: 0; }} 
-}}
-
-@keyframes floatUp {{ 
-    0% {{ transform: translateY(115vh) rotate(0deg); opacity: 0; }} 
-    10% {{ opacity: 0.2; }}
-    90% {{ opacity: 0.2; }}
-    100% {{ transform: translateY(-15vh) rotate(-360deg); opacity: 0; }} 
-}}
+@keyframes floatDown {{ 0% {{ transform: translateY(-15vh) rotate(0deg); opacity: 0; }} 10% {{ opacity: 0.35; }} 90% {{ opacity: 0.35; }} 100% {{ transform: translateY(115vh) rotate(360deg); opacity: 0; }} }}
+@keyframes floatUp {{ 0% {{ transform: translateY(115vh) rotate(0deg); opacity: 0; }} 10% {{ opacity: 0.15; }} 90% {{ opacity: 0.15; }} 100% {{ transform: translateY(-15vh) rotate(-360deg); opacity: 0; }} }}
 
 .header-container {{ padding: 120px 0px 100px 8%; position: relative; z-index: 10; }}
 .main-title {{ font-weight: 200; letter-spacing: -3px; font-size: 7rem; line-height: 0.8; color: #FFD700; }}
 
-/* FOTOĞRAFLAR (En üstte) */
 [data-testid="stImage"] {{ 
     transition: all 0.6s ease; 
-    border: 1px solid rgba(255,215,0,0.2); 
-    background: rgba(0,0,0,0.5); 
+    border: 1px solid rgba(255,215,0,0.3); 
+    background: rgba(0,0,0,0.7); 
     margin-bottom: 150px !important; 
     position: relative; 
     z-index: 2; 
 }}
 
 [data-testid="column"]:nth-child(2) [data-testid="stImage"] {{ margin-top: 150px; }}
-[data-testid="stImage"]:hover {{ transform: scale(1.02); border: 1px solid #FFD700; box-shadow: 0 0 40px rgba(255,215,0,0.2); }}
+[data-testid="stImage"]:hover {{ transform: scale(1.02); border: 1px solid #FFD700; box-shadow: 0 0 40px rgba(255,215,0,0.25); }}
 
 .visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.8; z-index: 20; }}
 #MainMenu, footer, header {{visibility: hidden;}}
@@ -152,4 +130,4 @@ for i, url in enumerate(photos):
     with target:
         st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:1.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)

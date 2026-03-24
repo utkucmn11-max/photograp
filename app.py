@@ -43,10 +43,34 @@ def get_static_elements():
 
 diamond_floats, camera_floats = get_static_elements()
 
-# 5. CSS + HTML (Çizgiler belirginleştirildi: opacity 0.05 -> 0.15)
+# 5. CSS + LOGO DEĞİŞİMİ
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
+
+/* ÜST BAR LOGO DEĞİŞİMİ */
+header[data-testid="stHeader"] {{
+    background-color: rgba(0,0,0,0);
+}}
+
+/* Streamlit logosunu gizle ve yerine U harfi koy */
+header[data-testid="stHeader"]::before {{
+    content: 'U';
+    position: absolute;
+    left: 20px;
+    top: 10px;
+    font-family: 'Manrope', sans-serif;
+    font-weight: 200;
+    font-size: 2rem;
+    color: #FFD700;
+    text-shadow: 0 0 10px rgba(255,215,0,0.5);
+    z-index: 9999;
+}}
+
+/* Orijinal logoyu ve menü butonlarını temizle */
+header[data-testid="stHeader"] svg {{
+    visibility: hidden;
+}}
 
 html, body, [data-testid="stAppViewContainer"] {{
     background-color: #000;
@@ -54,13 +78,12 @@ html, body, [data-testid="stAppViewContainer"] {{
     color: #FFD700;
     overflow-x: hidden;
     
-    /* ÇİZGİLER BURADA GÜNCELLENDİ (Daha opak ve net) */
     background-image: repeating-linear-gradient(
         -45deg, 
         #000 0px, 
         #000 60px, 
-        rgba(255, 215, 0, 0.15) 61px, 
-        rgba(255, 215, 0, 0.15) 63px
+        rgba(255, 215, 0, 0.18) 61px, 
+        rgba(255, 215, 0, 0.18) 63px
     );
     background-size: 200% 200%;
     animation: gradient-flow 80s linear infinite;
@@ -68,22 +91,12 @@ html, body, [data-testid="stAppViewContainer"] {{
 
 @keyframes gradient-flow {{ 0% {{ background-position: 0% 0%; }} 100% {{ background-position: 100% 100%; }} }}
 
-#intro-layer {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeOutUp 1s ease-in-out 2s forwards; }}
+#intro-layer {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 10000; animation: fadeOutUp 1s ease-in-out 2s forwards; }}
 .intro-text {{ font-size: 15vw; font-weight: 200; letter-spacing: -10px; color: #FFD700; text-transform: uppercase; white-space: nowrap; animation: textGlow 2s infinite alternate; }}
 @keyframes textGlow {{ from {{ text-shadow: 0 0 20px rgba(255,215,0,0.3); opacity: 0.6; }} to {{ text-shadow: 0 0 80px rgba(255,215,0,1); opacity: 1; }} }}
 @keyframes fadeOutUp {{ 0% {{ transform: translateY(0); }} 100% {{ transform: translateY(-110%); visibility: hidden; }} }}
 
-.bg-overlay {{ 
-    position: fixed; 
-    width: 100%; 
-    height: 100%; 
-    top: 0; 
-    left: 0; 
-    pointer-events: none; 
-    z-index: 0; 
-    overflow: hidden;
-}}
-
+.bg-overlay {{ position: fixed; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 0; overflow: hidden; }}
 .diamond-float {{ position: absolute; font-size: 1.2rem; opacity: 0.35; animation: floatDown linear infinite; }}
 .camera-float {{ position: absolute; font-size: 1rem; opacity: 0.15; animation: floatUp linear infinite; }}
 
@@ -106,10 +119,10 @@ html, body, [data-testid="stAppViewContainer"] {{
 [data-testid="stImage"]:hover {{ transform: scale(1.02); border: 1px solid #FFD700; box-shadow: 0 0 40px rgba(255,215,0,0.25); }}
 
 .visitor-badge {{ position: fixed; bottom: 30px; left: 30px; font-size: 0.6rem; color: #FFD700; letter-spacing: 4px; opacity: 0.8; z-index: 20; }}
-#MainMenu, footer, header {{visibility: hidden;}}
+#MainMenu, footer {{visibility: hidden;}}
 </style>
 
-<div id="intro-layer"><div class="intro-text">UTKU ÇiMEN </div></div>
+<div id="intro-layer"><div class="intro-text">Utku Çimen</div></div>
 
 <div class="bg-overlay">
     {diamond_floats}

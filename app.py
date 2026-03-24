@@ -56,7 +56,7 @@ html, body, [data-testid="stAppViewContainer"] {{
     color: #FFD700;
     overflow-x: hidden;
     /* Çizgiler */
-    background-image: repeating-linear-gradient(-45deg, #000 0px, #000 40px, rgba(255, 215, 0, 0.05) 61px, rgba(255, 215, 0, 0.05) 63px);
+    background-image: repeating-linear-gradient(-45deg, #000 0px, #000 100px, rgba(255, 215, 0, 0.05) 61px, rgba(255, 215, 0, 0.05) 63px);
     background-size: 200% 200%;
     animation: gradient-flow 60s linear infinite;
 }}

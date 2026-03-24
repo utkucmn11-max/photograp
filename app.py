@@ -1,16 +1,24 @@
 import streamlit as st
 import os
 import random
-# Hata almamak için bu satırı kontrol et: pip install streamlit-autorefresh
-from streamlit_autorefresh import st_autorefresh
 
-# 1. SAYFA AYARI (Hata 1: Bu komut her zaman en üstte, diğer tüm streamlit komutlarından önce olmalıdır)
+# 1. SAYFA AYARI (Kesinlikle en üstte olmalı)
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. OTO-YENİLEME (Hata 2: Değişken adı çakışmasını önlemek için benzersiz bir key veriyoruz)
-st_autorefresh(interval=18000000, key="utku_keep_alive")
+# 2. JS İLE OTO-YENİLEME (Kütüphane gerektirmez, hata riskini sıfırlar)
+# 5 saat = 18.000.000 milisaniye
+st.components.v1.html(
+    """
+    <script>
+    setTimeout(function(){
+        window.location.reload();
+    }, 18000000);
+    </script>
+    """,
+    height=0,
+)
 
-# 3. ZİYARETÇİ SAYACI (Hata 3: Dosya okuma/yazma izinleri ve tip hataları için try-except bloğu güncellendi)
+# 3. ZİYARETÇİ SAYACI
 def get_visitor_count():
     file_path = "counter.txt"
     if not os.path.exists(file_path):
@@ -20,7 +28,7 @@ def get_visitor_count():
         try:
             line = f.read().strip()
             count = int(line) if line else 0
-        except ValueError:
+        except:
             count = 0
             
     if 'counted' not in st.session_state:
@@ -31,15 +39,16 @@ def get_visitor_count():
 
 visitor_no = get_visitor_count()
 
-# 4. ARKA PLAN ÖĞELERİ (Hata 4: F-string içindeki süslü parantezlerin CSS ile karışmaması için iki kat {{ }} kullanıldı)
+# 4. TASARIM ÖĞELERİ (SABİTLENDİ)
 @st.cache_data
-def get_bg_elements():
+def get_static_elements():
     diamonds = "".join([f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%5}s; animation-delay:{i*0.4}s;"></div>' for i in range(20)])
     cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95)}%; animation-duration:{random.randint(15, 25)}s; animation-delay:{random.uniform(0, 10)}s;">📷</div>' for i in range(15)])
     return diamonds, cameras
 
-diamonds, cameras = get_bg_elements()
+diamonds, cameras = get_static_elements()
 
+# 5. CSS + HTML (Çift süslü parantez hatası giderildi)
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -75,16 +84,15 @@ html, body, [data-testid="stAppViewContainer"] {{
 <div class="visitor-badge">ARCHIVE_SYSTEM // {visitor_no:05d}</div>
 """, unsafe_allow_html=True)
 
-# İÇERİK
+# 6. İÇERİK
 st.markdown('<div class="header-container"><div class="main-title">Utku Çimen</div><div style="letter-spacing: 12px; color: #B8860B; font-size: 0.75rem; margin-top:20px; font-weight: 400;">2026 / OFFSET_LAYOUT / INDEX_09</div></div>', unsafe_allow_html=True)
 
 col1, col2 = st.columns(2)
 photos = ["9.jpg", "2.jpg", "3.jpg", "4.jpg", "8.jpg", "1.jpg"]
 
 for i, url in enumerate(photos):
-    target_col = col1 if i % 2 == 0 else col2
-    with target_col:
-        # Hata 4 düzeltmesi: use_column_width yerine güncel use_container_width kullanıldı
+    target = col1 if i % 2 == 0 else col2
+    with target:
         st.image(url, use_container_width=True)
 
 st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)

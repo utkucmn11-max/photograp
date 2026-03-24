@@ -109,7 +109,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 #MainMenu, footer, header {{visibility: hidden;}}
 </style>
 
-<div id="intro-layer"><div class="intro-text">Utku Çimen</div></div>
+<div id="intro-layer"><div class="intro-text">UTKU ÇiMEN </div></div>
 
 <div class="bg-overlay">
     {diamond_floats}

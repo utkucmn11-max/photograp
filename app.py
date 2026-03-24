@@ -127,8 +127,8 @@ html, body, [data-testid="stAppViewContainer"] {{
 <div class="bg-overlay">{diamond_floats}{camera_floats}</div>
 <div class="visitor-badge">
     <span>ARCHIVE_SYSTEM // {visitor_no:05d}</span>
-    <span style="opacity: 0.5;">💎</span>
-    <span style="opacity: 0.3;">📷</span>
+    <span style="opacity: 0.10;">💎</span>
+    <span style="opacity: 0.10;">📷</span>
 </div>
 """, unsafe_allow_html=True)
 

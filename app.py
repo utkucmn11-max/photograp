@@ -95,4 +95,4 @@ for i, url in enumerate(photos):
     with target:
         st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.1rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.55rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)

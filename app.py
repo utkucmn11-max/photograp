@@ -67,7 +67,7 @@ html, body, [data-testid="stAppViewContainer"] {{
     justify-content: center;
     align-items: center;
     z-index: 9999;
-    animation: fadeOutUp 1s ease-in-out 4s forwards;
+    animation: fadeOutUp 1s ease-in-out 2s forwards;
 }}
 
 .intro-text {{

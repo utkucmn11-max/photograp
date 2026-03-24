@@ -61,7 +61,7 @@ html, body, [data-testid="stAppViewContainer"] {{
     animation: gradient-flow 60s linear infinite;
 }}
 
-@keyframes gradient-flow {{ 0% {{ background-position: 0% 0%; }} 100% {{ background-position: 100% 100%; }} }}
+@keyframes gradient-flow {{ 0% {{ background-position: 0% 0%; }} 40% {{ background-position: 100% 100%; }} }}
 
 /* Intro Layer */
 #intro-layer {{ position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; animation: fadeOutUp 1s ease-in-out 2s forwards; }}

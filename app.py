@@ -2,10 +2,10 @@ import streamlit as st
 import os
 import random
 
-# 1. SAYFA AYARI (Kesinlikle en üstte olmalı)
+# 1. SAYFA AYARI (Hata 1 Giderildi: En üstte olmalı)
 st.set_page_config(page_title="UTKUÇİMEN | ARCHIVE", layout="wide", initial_sidebar_state="collapsed")
 
-# 2. JS İLE OTO-YENİLEME (Kütüphane gerektirmez, hata riskini sıfırlar)
+# 2. OTO-YENİLEME (Hata 2 Giderildi: Kütüphane gerektirmeyen JS)
 # 5 saat = 18.000.000 milisaniye
 st.components.v1.html(
     """
@@ -39,16 +39,18 @@ def get_visitor_count():
 
 visitor_no = get_visitor_count()
 
-# 4. TASARIM ÖĞELERİ (SABİTLENDİ)
+# 4. TASARIM ÖĞELERİ (SABİTLENDİ - F-STRING HATASI GİDERİLDİ)
 @st.cache_data
 def get_static_elements():
+    # Arka planda süzülen elmaslar
     diamonds = "".join([f'<div class="diamond" style="left:{i*5}%; animation-duration:{12 + i%5}s; animation-delay:{i*0.4}s;"></div>' for i in range(20)])
-    cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95)}%; animation-duration:{random.randint(15, 25)}s; animation-delay:{random.uniform(0, 10)}s;">📷</div>' for i in range(15)])
+    # YENİ: Süzülen kameraların yanına elmaslar eklendi
+    cameras = "".join([f'<div class="camera-float" style="left:{random.randint(0, 95)}%; animation-duration:{random.randint(15, 25)}s; animation-delay:{random.uniform(0, 10)}s;">📷💎</div>' for i in range(15)])
     return diamonds, cameras
 
 diamonds, cameras = get_static_elements()
 
-# 5. CSS + HTML (Çift süslü parantez hatası giderildi)
+# 5. CSS + HTML (Hata 3 Giderildi: Çift süslü parantez)
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;400&display=swap');
@@ -81,7 +83,7 @@ html, body, [data-testid="stAppViewContainer"] {{
 </style>
 <div id="intro-layer"><div class="intro-text">Utku Çimen</div></div>
 <div class="bg-overlay">{diamonds}{cameras}</div>
-<div class="visitor-badge">ARCHIVE_SYSTEM // {visitor_no:05d}</div>
+<div class="visitor-badge">ARCHIVE_SYSTEM // {visitor_no:05d} 📷💎</div>
 """, unsafe_allow_html=True)
 
 # 6. İÇERİK
@@ -95,4 +97,4 @@ for i, url in enumerate(photos):
     with target:
         st.image(url, use_container_width=True)
 
-st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:1.55rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)
+st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)

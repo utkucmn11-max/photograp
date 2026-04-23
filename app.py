@@ -144,3 +144,32 @@ for i, url in enumerate(photos):
         st.image(url, use_container_width=True)
 
 st.markdown("<br><br><br><p style='text-align:center; color:#554400; letter-spacing:10px; font-size:0.65rem;'>UTKU ÇİMEN PORTFOLIO // GOLD_EDITION_V2</p>", unsafe_allow_html=True)
+# 2. SİSTEMİ CANLI TUTMA & OTO-YENİLEME (HEARTHBEAT)
+st.components.v1.html(
+    """
+    <script>
+    // 1. Sunucuya düzenli ping atarak uyku modunu engelle (Her 5 dakikada bir)
+    function keepSystemAlive() {
+        fetch(window.location.href)
+            .then(response => console.log("ARCHIVE_STATUS: ACTIVE 💎"))
+            .catch(error => console.log("RECONNECTING..."));
+    }
+    
+    // Uygulama açıldığında başlat
+    setInterval(keepSystemAlive, 300000); 
+
+    // 2. Mevcut 5 saatlik tam sayfa yenileme (Sistem tazeleme)
+    setTimeout(function(){ 
+        window.location.reload(); 
+    }, 18000000);
+    
+    // 3. Kullanıcı sekmeden ayrılsa bile arka planda ping atmaya devam et
+    document.addEventListener('visibilitychange', function() {
+        if (document.visibilityState === 'visible') {
+            keepSystemAlive();
+        }
+    });
+    </script>
+    """,
+    height=0,
+)
